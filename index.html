@@ -9,9 +9,10 @@
   <meta property="og:locale" content="es_UY">
   <meta property="og:title" content="Nombre Apellido, abogada laboralista en Montevideo">
   <meta property="og:description" content="Defiendo a trabajadoras y trabajadores. Calculá tu indemnización por despido y hacé tu primera consulta gratis.">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#f6f3ee">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="fonts/archivo-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/faustina-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/source-sans-3-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -37,41 +38,50 @@
 
   <main id="contenido">
 
-    <!-- PORTADA: la frase es una calculadora -->
+    <!-- PORTADA -->
     <section class="portada" aria-labelledby="titulo">
-      <div class="contenedor">
-        <h1 id="titulo" class="portada-titulo">Abogada laboralista en Montevideo. Defiendo a trabajadoras y trabajadores.</h1>
+      <div class="contenedor portada-grilla">
+        <div class="portada-texto">
+          <h1 id="titulo">Defiendo tus derechos laborales, de principio a fin.</h1>
+          <p class="portada-bajada">Soy Nombre Apellido, abogada laboralista en Montevideo. Atiendo a trabajadoras y trabajadores en despidos, sueldos impagos, trabajo en negro, acoso y accidentes de trabajo.</p>
 
-        <div class="portada-grilla">
-          <div class="frase" id="cuenta-rapida" role="group" aria-label="Calculadora rápida de indemnización">
-            <p class="frase-texto">
-              Trabajé
-              <label class="sr" for="r-anios">Años trabajados</label><input type="text" class="blanco blanco-corto" id="r-anios" data-campo="anios" inputmode="numeric" autocomplete="off" maxlength="2" value="4">
-              años y
-              <label class="sr" for="r-meses">Meses trabajados, además de los años</label><input type="text" class="blanco blanco-corto" id="r-meses" data-campo="meses" inputmode="numeric" autocomplete="off" maxlength="2" value="2">
-              meses, cobraba <span class="junto">$&#8239;<label class="sr" for="r-monto">Sueldo nominal por mes, en pesos</label><input type="text" class="blanco blanco-monto" id="r-monto" data-campo="monto" inputmode="numeric" autocomplete="off" maxlength="10" value="45.000"></span>
-              por mes y me despidieron.
-            </p>
-            <p class="frase-ayuda">Cambiá los números por los tuyos.</p>
+          <div class="portada-acciones">
+            <a class="boton js-wa" href="https://wa.me/59899000000" target="_blank" rel="noopener" data-texto="Hola, quiero hacer una consulta laboral.">
+              <svg class="icono-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-2-1.2 7.4 7.4 0 0 1-1.4-1.7c-.1-.3 0-.4.1-.5l.4-.4.2-.4v-.4l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.6 11.6 0 0 0 4.4 3.9c1.6.7 2.3.8 3.1.6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.3-.2-.5-.3z"/></svg>
+              Escribime por WhatsApp
+            </a>
+            <a class="boton boton-linea" href="#contacto">Contame tu caso</a>
           </div>
 
-          <div class="respuesta">
+          <div class="firma">
+            <!-- Con la foto real: <img class="avatar" src="foto.jpg" alt="" width="112" height="112"> -->
+            <span class="avatar" aria-hidden="true">NA</span>
+            <p><strong>Te atiendo personalmente.</strong> La primera consulta es gratis y respondo en el día, de lunes a viernes.</p>
+          </div>
+        </div>
+
+        <div class="cuenta" id="cuenta-rapida" role="group" aria-labelledby="cuenta-titulo">
+          <h2 id="cuenta-titulo" class="cuenta-titulo">¿Te despidieron? Hacé la cuenta</h2>
+          <p class="frase-texto">
+            Trabajé
+            <label class="sr" for="r-anios">Años trabajados</label><input type="text" class="blanco" id="r-anios" data-campo="anios" inputmode="numeric" autocomplete="off" maxlength="2" value="4">
+            años y
+            <label class="sr" for="r-meses">Meses trabajados, además de los años</label><input type="text" class="blanco" id="r-meses" data-campo="meses" inputmode="numeric" autocomplete="off" maxlength="2" value="2">
+            meses, cobraba <span class="junto">$&#8239;<label class="sr" for="r-monto">Sueldo nominal por mes, en pesos</label><input type="text" class="blanco" id="r-monto" data-campo="monto" inputmode="numeric" autocomplete="off" maxlength="10" value="45.000"></span>
+            por mes y me despidieron.
+          </p>
+          <p class="frase-ayuda">Cambiá los números por los tuyos.</p>
+
+          <div class="respuesta" id="r-respuesta">
             <p class="respuesta-intro" id="r-intro">Por un despido sin causa te corresponden, como mínimo,</p>
             <p class="respuesta-monto" id="r-total">$&nbsp;225.000</p>
             <p class="respuesta-detalle" id="r-detalle">Un sueldo por cada año o fracción trabajada, hasta seis: en tu caso, 5. Además te tienen que pagar la licencia, el salario vacacional y el aguinaldo.</p>
-            <a class="enlace-fuerte" href="#calculadora">Hacé la cuenta completa</a>
+            <a class="enlace-fuerte" href="#calculadora">Ver la liquidación completa</a>
           </div>
         </div>
+      </div>
 
-        <div class="portada-acciones">
-          <a class="boton js-wa" href="https://wa.me/59899000000" target="_blank" rel="noopener" data-texto="Hola, quiero hacer una consulta laboral.">
-            <svg class="icono-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-2-1.2 7.4 7.4 0 0 1-1.4-1.7c-.1-.3 0-.4.1-.5l.4-.4.2-.4v-.4l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.6 11.6 0 0 0 4.4 3.9c1.6.7 2.3.8 3.1.6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.3-.2-.5-.3z"/></svg>
-            Escribime por WhatsApp
-          </a>
-          <a class="boton boton-linea" href="#contacto">Contame tu caso</a>
-          <p class="portada-promesa">La primera consulta es gratis. Respondo en el día, de lunes a viernes.</p>
-        </div>
-
+      <div class="contenedor">
         <nav class="otras" aria-label="Otras situaciones">
           <p class="otras-titulo">¿Te pasó otra cosa?</p>
           <ul>
@@ -93,61 +103,91 @@
           <p>Cada situación tiene sus reglas y sus plazos. Estas son las más comunes. Si la tuya no está, contámela igual.</p>
         </div>
 
-        <div class="situaciones-lista">
-          <article class="situacion" id="despido">
-            <h3>Me despidieron</h3>
-            <p>Si te despidieron sin una causa grave, te corresponde la indemnización por despido. Además, la empresa te tiene que pagar la licencia, el salario vacacional y el aguinaldo que generaste.</p>
-            <p>Si alegan notoria mala conducta para no pagarte, se puede discutir. Y si estabas embarazada, con certificación médica, volviendo de un accidente de trabajo, con actividad sindical o después de denunciar acoso, la ley te protege más.</p>
-            <p>Si la empresa no te paga o te cambia las condiciones de forma grave, puede haber un despido indirecto, aunque nadie te haya dicho que estás despedido.</p>
-            <p class="ahora"><strong>Lo que podés hacer hoy:</strong> no firmes nada apurado y guardá tus recibos, tu contrato y los mensajes con la empresa. Leé la <a href="guia-despido.html">guía de qué hacer si te despiden</a>.</p>
-            <a class="enlace-fuerte" href="#contacto" data-tema="despido">Consultar sobre esto</a>
-          </article>
+        <div class="acordeon">
+          <details class="situacion" id="despido" open>
+            <summary>
+              <span class="resumen-titulo">Me despidieron</span>
+              <span class="resumen-bajada">Indemnización, liquidación final y despidos especiales.</span>
+            </summary>
+            <div class="situacion-cuerpo">
+              <p>Si te despidieron sin una causa grave, te corresponde la indemnización por despido. Además, la empresa te tiene que pagar la licencia, el salario vacacional y el aguinaldo que generaste.</p>
+              <p>Si alegan notoria mala conducta para no pagarte, se puede discutir. Y si estabas embarazada, con certificación médica, volviendo de un accidente de trabajo, con actividad sindical o después de denunciar acoso, la ley te protege más.</p>
+              <p>Si la empresa no te paga o te cambia las condiciones de forma grave, puede haber un despido indirecto, aunque nadie te haya dicho que estás despedido.</p>
+              <p class="consejo"><strong>Lo que podés hacer hoy:</strong> no firmes nada apurado y guardá tus recibos, tu contrato y los mensajes con la empresa. Leé la <a href="guia-despido.html">guía de qué hacer si te despiden</a>.</p>
+              <a class="enlace-fuerte" href="#contacto" data-tema="despido">Consultar sobre esto</a>
+            </div>
+          </details>
 
-          <article class="situacion" id="pagos">
-            <h3>No me pagan lo que corresponde</h3>
-            <p>Sueldos atrasados, horas extra que no aparecen en el recibo, licencia o salario vacacional sin pagar, aguinaldo incompleto, o un sueldo por debajo del laudo de tu categoría.</p>
-            <p>Podés reclamar aunque sigas trabajando ahí.</p>
-            <p class="ahora"><strong>Lo que podés hacer hoy:</strong> juntá tus recibos de sueldo y anotá tus horarios reales, con días y horas.</p>
-            <a class="enlace-fuerte" href="#contacto" data-tema="pagos">Consultar sobre esto</a>
-          </article>
+          <details class="situacion" id="pagos">
+            <summary>
+              <span class="resumen-titulo">No me pagan lo que corresponde</span>
+              <span class="resumen-bajada">Sueldos, horas extra, licencia, aguinaldo y laudo.</span>
+            </summary>
+            <div class="situacion-cuerpo">
+              <p>Sueldos atrasados, horas extra que no aparecen en el recibo, licencia o salario vacacional sin pagar, aguinaldo incompleto, o un sueldo por debajo del laudo de tu categoría.</p>
+              <p>Podés reclamar aunque sigas trabajando ahí.</p>
+              <p class="consejo"><strong>Lo que podés hacer hoy:</strong> juntá tus recibos de sueldo y anotá tus horarios reales, con días y horas.</p>
+              <a class="enlace-fuerte" href="#contacto" data-tema="pagos">Consultar sobre esto</a>
+            </div>
+          </details>
 
-          <article class="situacion" id="registro">
-            <h3>Trabajo en negro o mal registrado</h3>
-            <p>Si no estás registrado en el BPS, o figurás con menos horas o con un sueldo menor al real, perdés aportes para tu jubilación y cobertura de salud, y puede afectarte el seguro de paro.</p>
-            <p>Se puede reclamar lo que te deben y regularizar tu historia laboral.</p>
-            <p class="ahora"><strong>Lo que podés hacer hoy:</strong> revisá tu historia laboral en la web del BPS y guardá pruebas de que trabajás ahí, como mensajes, fotos o testigos.</p>
-            <a class="enlace-fuerte" href="#contacto" data-tema="registro">Consultar sobre esto</a>
-          </article>
+          <details class="situacion" id="registro">
+            <summary>
+              <span class="resumen-titulo">Trabajo en negro o mal registrado</span>
+              <span class="resumen-bajada">Registro en el BPS, aportes e historia laboral.</span>
+            </summary>
+            <div class="situacion-cuerpo">
+              <p>Si no estás registrado en el BPS, o figurás con menos horas o con un sueldo menor al real, perdés aportes para tu jubilación y cobertura de salud, y puede afectarte el seguro de paro.</p>
+              <p>Se puede reclamar lo que te deben y regularizar tu historia laboral.</p>
+              <p class="consejo"><strong>Lo que podés hacer hoy:</strong> revisá tu historia laboral en la web del BPS y guardá pruebas de que trabajás ahí, como mensajes, fotos o testigos.</p>
+              <a class="enlace-fuerte" href="#contacto" data-tema="registro">Consultar sobre esto</a>
+            </div>
+          </details>
 
-          <article class="situacion" id="acoso">
-            <h3>Sufro acoso o discriminación</h3>
-            <p>Malos tratos repetidos, humillaciones, acoso sexual, o discriminación por tu género, edad, origen, salud u otro motivo.</p>
-            <p>El acoso sexual en el trabajo tiene una ley específica, la 18.561, que obliga a la empresa a investigar y protege a quien denuncia.</p>
-            <p class="ahora"><strong>Lo que podés hacer hoy:</strong> anotá fechas, hechos y testigos, y guardá mensajes o correos. Lo que me cuentes es confidencial.</p>
-            <a class="enlace-fuerte" href="#contacto" data-tema="acoso">Consultar sobre esto</a>
-          </article>
+          <details class="situacion" id="acoso">
+            <summary>
+              <span class="resumen-titulo">Sufro acoso o discriminación</span>
+              <span class="resumen-bajada">Malos tratos, acoso sexual y discriminación.</span>
+            </summary>
+            <div class="situacion-cuerpo">
+              <p>Malos tratos repetidos, humillaciones, acoso sexual, o discriminación por tu género, edad, origen, salud u otro motivo.</p>
+              <p>El acoso sexual en el trabajo tiene una ley específica, la 18.561, que obliga a la empresa a investigar y protege a quien denuncia.</p>
+              <p class="consejo"><strong>Lo que podés hacer hoy:</strong> anotá fechas, hechos y testigos, y guardá mensajes o correos. Lo que me cuentes es confidencial.</p>
+              <a class="enlace-fuerte" href="#contacto" data-tema="acoso">Consultar sobre esto</a>
+            </div>
+          </details>
 
-          <article class="situacion" id="accidente">
-            <h3>Tuve un accidente o me enfermé por el trabajo</h3>
-            <p>Los accidentes de trabajo y las enfermedades profesionales están cubiertos por el Banco de Seguros del Estado (BSE). Te acompaño en el trámite y, si la empresa no cumplió con las medidas de seguridad, también en el reclamo contra ella.</p>
-            <p>Si te despiden después de reintegrarte, la ley te protege especialmente.</p>
-            <p class="ahora"><strong>Lo que podés hacer hoy:</strong> asegurate de que el accidente quede denunciado y guardá todos los certificados médicos.</p>
-            <a class="enlace-fuerte" href="#contacto" data-tema="accidente">Consultar sobre esto</a>
-          </article>
+          <details class="situacion" id="accidente">
+            <summary>
+              <span class="resumen-titulo">Tuve un accidente o me enfermé por el trabajo</span>
+              <span class="resumen-bajada">Trámite ante el BSE y reclamo a la empresa.</span>
+            </summary>
+            <div class="situacion-cuerpo">
+              <p>Los accidentes de trabajo y las enfermedades profesionales están cubiertos por el Banco de Seguros del Estado (BSE). Te acompaño en el trámite y, si la empresa no cumplió con las medidas de seguridad, también en el reclamo contra ella.</p>
+              <p>Si te despiden después de reintegrarte, la ley te protege especialmente.</p>
+              <p class="consejo"><strong>Lo que podés hacer hoy:</strong> asegurate de que el accidente quede denunciado y guardá todos los certificados médicos.</p>
+              <a class="enlace-fuerte" href="#contacto" data-tema="accidente">Consultar sobre esto</a>
+            </div>
+          </details>
 
-          <article class="situacion" id="firmar">
-            <h3>Me piden que firme algo</h3>
-            <p>Una renuncia, un acuerdo de egreso, un cambio de horario o de tareas, una sanción o tu liquidación final. Lo que firmás puede limitar lo que después podés reclamar.</p>
-            <p>Mandame una foto del documento por WhatsApp y te digo qué implica antes de que lo firmes.</p>
-            <p class="ahora"><strong>Lo que podés hacer hoy:</strong> no firmes apurado. Pedí una copia y tomate el tiempo de leerlo.</p>
-            <a class="enlace-fuerte js-wa" href="https://wa.me/59899000000" target="_blank" rel="noopener" data-texto="Hola, me piden que firme un documento y quiero que lo revises antes.">Mandar el documento por WhatsApp</a>
-          </article>
+          <details class="situacion" id="firmar">
+            <summary>
+              <span class="resumen-titulo">Me piden que firme algo</span>
+              <span class="resumen-bajada">Renuncias, acuerdos, sanciones y liquidaciones.</span>
+            </summary>
+            <div class="situacion-cuerpo">
+              <p>Una renuncia, un acuerdo de egreso, un cambio de horario o de tareas, una sanción o tu liquidación final. Lo que firmás puede limitar lo que después podés reclamar.</p>
+              <p>Mandame una foto del documento por WhatsApp y te digo qué implica antes de que lo firmes.</p>
+              <p class="consejo"><strong>Lo que podés hacer hoy:</strong> no firmes apurado. Pedí una copia y tomate el tiempo de leerlo.</p>
+              <a class="enlace-fuerte js-wa" href="https://wa.me/59899000000" target="_blank" rel="noopener" data-texto="Hola, me piden que firme un documento y quiero que lo revises antes.">Mandar el documento por WhatsApp</a>
+            </div>
+          </details>
         </div>
       </div>
     </section>
 
     <!-- CALCULADORA -->
-    <section class="seccion seccion-formulario" id="calculadora" aria-labelledby="calculadora-titulo">
+    <section class="seccion seccion-lino" id="calculadora" aria-labelledby="calculadora-titulo">
       <div class="contenedor">
         <h2 id="calculadora-titulo">Hacé la cuenta completa</h2>
         <p class="seccion-intro">Una estimación de lo que te corresponde al egreso, según las reglas generales de la ley uruguaya. Es orientativa: el monto exacto depende de tus recibos y de tu caso.</p>
@@ -239,6 +279,7 @@
     <section class="seccion" id="como-trabajo" aria-labelledby="como-titulo">
       <div class="contenedor">
         <h2 id="como-titulo">Cómo trabajo</h2>
+        <p class="seccion-intro">Sabés en qué está tu caso en todo momento, y nada avanza sin que lo decidas vos.</p>
         <ol class="pasos">
           <li>
             <h3>Me contás qué pasó</h3>
@@ -261,11 +302,11 @@
     </section>
 
     <!-- QUIÉN SOY -->
-    <section class="seccion" id="quien-soy" aria-labelledby="quien-titulo">
+    <section class="seccion seccion-lino" id="quien-soy" aria-labelledby="quien-titulo">
       <div class="contenedor perfil">
         <!-- Para usar la foto real: reemplazar este div por
              <img class="perfil-foto" src="foto.jpg" alt="Nombre Apellido, abogada laboralista" width="800" height="1000"> -->
-        <div class="perfil-foto" role="img" aria-label="Foto de Nombre Apellido"><span>Foto</span></div>
+        <div class="perfil-foto" role="img" aria-label="Foto de Nombre Apellido"><span>NA</span></div>
 
         <div class="perfil-texto">
           <h2 id="quien-titulo">Soy Nombre Apellido</h2>
@@ -316,33 +357,33 @@
           </div>
         </div>
 
-        <div class="faq">
+        <div class="acordeon acordeon-compacto">
           <details>
-            <summary>¿La primera consulta tiene costo?</summary>
+            <summary><span class="resumen-titulo">¿La primera consulta tiene costo?</span></summary>
             <p>No. La primera consulta es gratis y sin compromiso. Si después querés avanzar, te paso los honorarios por escrito antes de empezar.</p>
           </details>
           <details>
-            <summary>¿Cuánto tiempo tengo para reclamar?</summary>
+            <summary><span class="resumen-titulo">¿Cuánto tiempo tengo para reclamar?</span></summary>
             <p>Tenés un año desde el día siguiente a tu egreso para iniciar el reclamo, y podés reclamar lo que te deban de hasta cinco años atrás. Igual no esperes: cuanto antes lo veamos, mejor.</p>
           </details>
           <details>
-            <summary>¿Puedo reclamar si sigo trabajando ahí?</summary>
+            <summary><span class="resumen-titulo">¿Puedo reclamar si sigo trabajando ahí?</span></summary>
             <p>Sí. Podés reclamar diferencias de sueldo, horas extra o licencias aunque sigas en la empresa. Lo planificamos con cuidado, pensando también en tu trabajo.</p>
           </details>
           <details>
-            <summary>¿Qué es la audiencia en el Ministerio de Trabajo?</summary>
+            <summary><span class="resumen-titulo">¿Qué es la audiencia en el Ministerio de Trabajo?</span></summary>
             <p>Antes de ir a juicio, la ley exige una audiencia de conciliación en el Ministerio de Trabajo y Seguridad Social (MTSS). Se cita a la empresa y se intenta llegar a un acuerdo. Si el reclamo es de 20 UR o más, tenés que ir con abogado. Yo te acompaño.</p>
           </details>
           <details>
-            <summary>¿Qué documentos necesito?</summary>
+            <summary><span class="resumen-titulo">¿Qué documentos necesito?</span></summary>
             <p>Los que tengas: recibos de sueldo, contrato, mensajes o correos con la empresa, y tu historia laboral del BPS. Si no tenés nada, igual consultame: hay otras formas de probar lo que pasó.</p>
           </details>
           <details>
-            <summary>¿Puedo hacer todo online?</summary>
+            <summary><span class="resumen-titulo">¿Puedo hacer todo online?</span></summary>
             <p>Sí. Podemos hablar por videollamada o por WhatsApp, y me mandás tus documentos en foto o PDF. Si preferís, nos vemos en la oficina, con cita previa.</p>
           </details>
           <details>
-            <summary>¿Lo que te cuente es confidencial?</summary>
+            <summary><span class="resumen-titulo">¿Lo que te cuente es confidencial?</span></summary>
             <p>Sí. Lo que me cuentes en la consulta está protegido por el secreto profesional. En el primer mensaje alcanza con un resumen; los detalles los vemos en la consulta.</p>
           </details>
         </div>
@@ -350,88 +391,13 @@
     </section>
 
     <!-- CONTACTO -->
-    <section class="seccion contacto" id="contacto" aria-labelledby="contacto-titulo">
+    <section class="seccion seccion-lino contacto" id="contacto" aria-labelledby="contacto-titulo">
       <div class="contenedor contacto-grilla">
-        <div>
+        <div class="contacto-intro">
           <h2 id="contacto-titulo">Contame qué pasó</h2>
-          <p class="contacto-intro">La primera consulta es gratis. Te respondo en el día, de lunes a viernes.</p>
+          <p>La primera consulta es gratis. Te respondo en el día, de lunes a viernes.</p>
 
-          <form class="formulario" id="formulario" novalidate>
-            <div class="formulario-frase">
-              <p>
-                Me llamo
-                <label class="sr" for="f-nombre">Tu nombre</label><input type="text" class="blanco blanco-texto" id="f-nombre" name="nombre" autocomplete="name" placeholder="tu nombre" required>.
-              </p>
-              <p>
-                Me pasó que
-                <label class="sr" for="f-tema">Qué te pasó</label><select class="blanco" id="f-tema" name="tema">
-                  <option value="despido">me despidieron</option>
-                  <option value="pagos">no me pagan lo que corresponde</option>
-                  <option value="registro">trabajo en negro o mal registrado</option>
-                  <option value="acoso">sufro acoso o discriminación</option>
-                  <option value="accidente">tuve un accidente o me enfermé por el trabajo</option>
-                  <option value="firmar">me piden que firme algo</option>
-                  <option value="otra">me pasó otra cosa</option>
-                </select>.
-              </p>
-              <p>
-                La empresa es
-                <label class="sr" for="f-empresa">Nombre de la empresa (opcional)</label><input type="text" class="blanco blanco-texto" id="f-empresa" name="empresa" autocomplete="organization" placeholder="nombre de la empresa">
-                y mi antigüedad es de
-                <label class="sr" for="f-antiguedad">Años de antigüedad (opcional)</label><input type="text" class="blanco blanco-corto" id="f-antiguedad" name="antiguedad" inputmode="numeric" maxlength="2" placeholder="0">
-                años.
-              </p>
-              <p>
-                Esto
-                <label class="sr" for="f-urgencia">Urgencia</label><select class="blanco" id="f-urgencia" name="urgencia">
-                  <option value="no">puede esperar unos días</option>
-                  <option value="firmar">es urgente: tengo que firmar algo</option>
-                  <option value="plazo">es urgente: se me vence un plazo</option>
-                  <option value="audiencia">es urgente: tengo una audiencia</option>
-                </select>.
-              </p>
-              <p>
-                Prefiero que me respondas por
-                <label class="sr" for="f-preferencia">Cómo preferís que te responda</label><select class="blanco" id="f-preferencia" name="preferencia">
-                  <option value="whatsapp">WhatsApp</option>
-                  <option value="llamada">una llamada</option>
-                  <option value="correo">correo</option>
-                </select><span class="js-horario" hidden>,
-                  <label class="sr" for="f-horario">Horario para llamarte</label><select class="blanco" id="f-horario" name="horario">
-                    <option value="de mañana">de mañana</option>
-                    <option value="de tarde">de tarde</option>
-                    <option value="en cualquier horario">en cualquier horario</option>
-                  </select></span>.
-              </p>
-              <p>
-                Mi teléfono o correo es
-                <label class="sr" for="f-contacto">Tu teléfono o correo</label><input type="text" class="blanco blanco-texto" id="f-contacto" name="contacto" autocomplete="tel" placeholder="099 000 000">.
-              </p>
-            </div>
-
-            <div class="campo-mensaje">
-              <label for="f-mensaje">Si querés, contame un poco más</label>
-              <textarea id="f-mensaje" name="mensaje" rows="4" aria-describedby="f-mensaje-ayuda"></textarea>
-              <p class="ayuda" id="f-mensaje-ayuda">Con un resumen alcanza. Si tenés documentos, me los mandás después por WhatsApp.</p>
-            </div>
-
-            <label class="consentimiento">
-              <input type="checkbox" id="f-acepto" name="acepto" required>
-              <span>Acepto que use estos datos para responder mi consulta, como explica la <a href="privacidad.html">política de privacidad</a>.</span>
-            </label>
-            <p class="aviso">Escribirme no crea una relación profesional. No incluyas datos sensibles en este primer mensaje: los vemos en la consulta.</p>
-
-            <p class="form-error" id="form-error" role="alert" hidden></p>
-            <div class="formulario-acciones">
-              <button type="submit" class="boton" data-via="whatsapp">Enviar por WhatsApp</button>
-              <button type="submit" class="boton boton-linea" data-via="email">Enviar por correo</button>
-            </div>
-            <p class="ayuda">El formulario arma el mensaje y lo abre en tu WhatsApp o en tu correo. No se guarda nada en este sitio.</p>
-          </form>
-        </div>
-
-        <aside class="canales" aria-label="Datos de contacto">
-          <dl>
+          <dl class="canales">
             <div>
               <dt>WhatsApp y teléfono</dt>
               <dd><a class="js-tel canal-grande" href="tel:+59899000000">099&nbsp;000&nbsp;000</a></dd>
@@ -449,14 +415,87 @@
               <dd>Lunes a viernes, de 9 a 18 h.</dd>
             </div>
           </dl>
-        </aside>
+        </div>
+
+        <form class="formulario tarjeta" id="formulario" novalidate>
+          <div class="formulario-frase">
+            <p>
+              Me llamo
+              <label class="sr" for="f-nombre">Tu nombre</label><input type="text" class="blanco" id="f-nombre" name="nombre" autocomplete="name" placeholder="tu nombre" required>.
+            </p>
+            <p>
+              Me pasó que
+              <label class="sr" for="f-tema">Qué te pasó</label><select class="blanco" id="f-tema" name="tema">
+                <option value="despido">me despidieron</option>
+                <option value="pagos">no me pagan lo que corresponde</option>
+                <option value="registro">trabajo en negro o mal registrado</option>
+                <option value="acoso">sufro acoso o discriminación</option>
+                <option value="accidente">tuve un accidente o me enfermé por el trabajo</option>
+                <option value="firmar">me piden que firme algo</option>
+                <option value="otra">me pasó otra cosa</option>
+              </select>.
+            </p>
+            <p>
+              La empresa es
+              <label class="sr" for="f-empresa">Nombre de la empresa (opcional)</label><input type="text" class="blanco" id="f-empresa" name="empresa" autocomplete="organization" placeholder="nombre de la empresa">
+              y mi antigüedad es de
+              <label class="sr" for="f-antiguedad">Años de antigüedad (opcional)</label><input type="text" class="blanco" id="f-antiguedad" name="antiguedad" inputmode="numeric" maxlength="2" placeholder="0">
+              años.
+            </p>
+            <p>
+              Esto
+              <label class="sr" for="f-urgencia">Urgencia</label><select class="blanco" id="f-urgencia" name="urgencia">
+                <option value="no">puede esperar unos días</option>
+                <option value="firmar">es urgente: tengo que firmar algo</option>
+                <option value="plazo">es urgente: se me vence un plazo</option>
+                <option value="audiencia">es urgente: tengo una audiencia</option>
+              </select>.
+            </p>
+            <p>
+              Prefiero que me respondas por
+              <label class="sr" for="f-preferencia">Cómo preferís que te responda</label><select class="blanco" id="f-preferencia" name="preferencia">
+                <option value="whatsapp">WhatsApp</option>
+                <option value="llamada">una llamada</option>
+                <option value="correo">correo</option>
+              </select><span class="js-horario" hidden>,
+                <label class="sr" for="f-horario">Horario para llamarte</label><select class="blanco" id="f-horario" name="horario">
+                  <option value="de mañana">de mañana</option>
+                  <option value="de tarde">de tarde</option>
+                  <option value="en cualquier horario">en cualquier horario</option>
+                </select></span>.
+            </p>
+            <p>
+              Mi teléfono o correo es
+              <label class="sr" for="f-contacto">Tu teléfono o correo</label><input type="text" class="blanco" id="f-contacto" name="contacto" autocomplete="tel" placeholder="099 000 000">.
+            </p>
+          </div>
+
+          <div class="campo-mensaje">
+            <label for="f-mensaje">Si querés, contame un poco más</label>
+            <textarea id="f-mensaje" name="mensaje" rows="4" aria-describedby="f-mensaje-ayuda"></textarea>
+            <p class="ayuda" id="f-mensaje-ayuda">Con un resumen alcanza. Si tenés documentos, me los mandás después por WhatsApp.</p>
+          </div>
+
+          <label class="consentimiento">
+            <input type="checkbox" id="f-acepto" name="acepto" required>
+            <span>Acepto que use estos datos para responder mi consulta, como explica la <a href="privacidad.html">política de privacidad</a>.</span>
+          </label>
+          <p class="aviso">Escribirme no crea una relación profesional. No incluyas datos sensibles en este primer mensaje: los vemos en la consulta.</p>
+
+          <p class="form-error" id="form-error" role="alert" hidden></p>
+          <div class="formulario-acciones">
+            <button type="submit" class="boton" data-via="whatsapp">Enviar por WhatsApp</button>
+            <button type="submit" class="boton boton-linea" data-via="email">Enviar por correo</button>
+          </div>
+          <p class="ayuda">El formulario arma el mensaje y lo abre en tu WhatsApp o en tu correo. No se guarda nada en este sitio.</p>
+        </form>
       </div>
     </section>
   </main>
 
   <footer class="pie">
     <div class="contenedor pie-grilla">
-      <p><strong>Nombre Apellido.</strong> Abogada laboralista, matrícula N.º&nbsp;00000. Montevideo, Uruguay.</p>
+      <p class="pie-marca"><strong>Nombre Apellido</strong><br>Abogada laboralista, matrícula N.º&nbsp;00000. Montevideo, Uruguay.</p>
       <ul class="pie-enlaces">
         <li><a href="privacidad.html">Política de privacidad</a></li>
         <li><a href="guia-despido.html">Guía: qué hacer si te despiden</a></li>

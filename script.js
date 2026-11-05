@@ -91,19 +91,20 @@ const CONFIG = {
     const enFormulario = el.matches(".formulario-frase .blanco");
     if (!enPortada && !enFormulario) return;
 
+    // Relleno horizontal de .blanco: 0,38em de cada lado, más 1px de borde.
     if (el.tagName === "SELECT") {
       const opcion = el.options[el.selectedIndex];
       const { ancho, em } = medir(el, opcion ? opcion.text : "");
-      el.style.width = Math.ceil(ancho + em * 1.3 + 6) + "px";
+      el.style.width = Math.ceil(ancho + em * (0.38 + 1.5) + 6) + "px";
       return;
     }
     if (enPortada) {
       const { ancho, em } = medir(el, el.value || "0");
-      el.style.width = Math.ceil(ancho + em * 0.24) + "px";
+      el.style.width = Math.ceil(ancho + em * 0.76 + 4) + "px";
       return;
     }
     const { ancho, em } = medir(el, el.value || el.placeholder || "");
-    el.style.width = Math.ceil(Math.max(ancho, em * 1.2) + em * 0.4) + "px";
+    el.style.width = Math.ceil(Math.max(ancho, em * 1.2) + em * 0.76 + 6) + "px";
   }
 
   function ajustarTodos() { $$(".frase-texto .blanco, .formulario-frase .blanco").forEach(ajustarAncho); }
@@ -125,24 +126,28 @@ const CONFIG = {
     anuncioPendiente = setTimeout(() => { anuncio.textContent = texto; }, 800);
   }
 
-  /* ---------- Números que cambian ---------- */
+  /* ---------- Números que cambian ----------
+     La cifra se reemplaza al instante y se tiñe un momento para que se note el cambio. */
   const ultimoValor = new WeakMap();
-  function mostrarMonto(el, destino, duracion) {
+  function mostrarMonto(el, valor) {
     if (!el) return;
-    const desde = ultimoValor.has(el) ? ultimoValor.get(el) : destino;
-    ultimoValor.set(el, destino);
-    cancelAnimationFrame(el._animacion);
-    if (sinMovimiento || desde === destino) { el.textContent = pesos(destino); return; }
-    const inicio = performance.now();
-    const total = duracion || 380;
-    const paso = (ahora) => {
-      const avance = Math.min(1, (ahora - inicio) / total);
-      const suave = 1 - Math.pow(1 - avance, 3);
-      el.textContent = pesos(desde + (destino - desde) * suave);
-      if (avance < 1) el._animacion = requestAnimationFrame(paso);
-    };
-    el._animacion = requestAnimationFrame(paso);
+    const anterior = ultimoValor.get(el);
+    ultimoValor.set(el, valor);
+    el.textContent = pesos(valor);
+    if (anterior === undefined || anterior === valor || sinMovimiento) return;
+    el.classList.remove("cambio");
+    void el.offsetWidth;
+    el.classList.add("cambio");
   }
+
+  /* ---------- Desplegables: un enlace a una situación la abre ---------- */
+  function abrirDesplegable(id) {
+    const destino = id && document.getElementById(id);
+    if (destino && destino.tagName === "DETAILS") destino.open = true;
+  }
+  $$('a[href^="#"]').forEach((a) => a.addEventListener("click", () => abrirDesplegable(a.getAttribute("href").slice(1))));
+  window.addEventListener("hashchange", () => abrirDesplegable(decodeURIComponent(location.hash.slice(1))));
+  abrirDesplegable(decodeURIComponent(location.hash.slice(1)));
 
   /* =========================================================
      Calculadora (portada + sección completa)
@@ -221,7 +226,6 @@ const CONFIG = {
     const rIntro = $("#r-intro");
     const rTotal = $("#r-total");
     const rDetalle = $("#r-detalle");
-    let duracionPortada;
 
     function renderPortada() {
       if (!rTotal) return;
@@ -237,7 +241,7 @@ const CONFIG = {
       const sueldos = C.sueldosPorDespido(estado.anios, estado.meses);
       const indemnizacion = sueldos * estado.monto;
       rIntro.textContent = "Por un despido sin causa te corresponden, como mínimo,";
-      mostrarMonto(rTotal, indemnizacion, duracionPortada);
+      mostrarMonto(rTotal, indemnizacion);
       let detalle = "Un sueldo por cada año o fracción trabajada, hasta seis: en tu caso, " + sueldos + ".";
       if (total < 3) detalle += " Si estabas en un período de prueba acordado por escrito, puede no corresponder.";
       detalle += " Además te tienen que pagar la licencia, el salario vacacional y el aguinaldo.";
@@ -335,12 +339,8 @@ const CONFIG = {
       }
     });
 
-    // Primera carga: la cifra de la portada cuenta desde cero, una sola vez.
     sincronizar(null);
-    if (rTotal) ultimoValor.set(rTotal, 0);
-    duracionPortada = 900;
     render(false);
-    duracionPortada = undefined;
   }
 
   /* =========================================================

@@ -9,10 +9,10 @@ Sitio estático (HTML, CSS y JavaScript, sin dependencias ni compilación) para 
 | `index.html` | Página principal: portada con calculadora rápida, situaciones, calculadora completa, cómo trabajo, quién soy, preguntas y contacto. |
 | `guia-despido.html` | Guía "Qué hacer si te despiden". |
 | `privacidad.html` | Política de privacidad (Ley 18.331). |
-| `styles.css` | Diseño. Los colores y medidas están al principio, en `:root`. |
+| `styles.css` | Diseño. Los colores y medidas están al principio, en `:root`: petróleo, lino y un acento miel mínimo. |
 | `script.js` | Datos de contacto (`CONFIG`), menú, calculadora en pantalla y formulario. |
 | `calculo.js` | Reglas y cuentas de la calculadora (`REGLAS`). |
-| `fonts/` | Tipografía Archivo (licencia OFL), servida desde el propio sitio. |
+| `fonts/` | Tipografías Faustina (títulos) y Source Sans 3 (texto), con licencia OFL, servidas desde el propio sitio. |
 | `favicon.svg` | Ícono de la pestaña. |
 
 ## Datos para completar antes de difundir el sitio
@@ -28,12 +28,12 @@ Sitio estático (HTML, CSS y JavaScript, sin dependencias ni compilación) para 
    - Los idiomas.
    - Docencia y publicaciones, que está comentado y se activa si corresponde.
    - Los dos párrafos de presentación: el de compliance hay que confirmarlo.
-4. **Foto:** guardarla como `foto.jpg`, en retrato vertical 4:5, y reemplazar el bloque marcado en `index.html`.
+4. **Foto:** guardarla como `foto.jpg`, en retrato vertical 4:5. Aparece en dos lugares de `index.html`, cada uno marcado con un comentario: la firma de la portada, en círculo, y "Quién soy". Mientras no esté la foto se ven las iniciales `NA`; si se prefiere dejar iniciales, hay que cambiarlas por las reales.
 
 Para encontrar todo lo pendiente:
 
 ```sh
-grep -n "Nombre Apellido\|WhatsApp con Nombre\|00000\|Dirección de la oficina\|ejemplo.com" *.html script.js
+grep -n "Nombre Apellido\|WhatsApp con Nombre\|00000\|Dirección de la oficina\|ejemplo.com\|>NA<" *.html script.js
 ```
 
 ## Revisión legal pendiente
