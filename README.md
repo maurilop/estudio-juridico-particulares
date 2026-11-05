@@ -2,38 +2,60 @@
 
 Sitio estático (HTML, CSS y JavaScript, sin dependencias ni compilación) para trabajadoras y trabajadores. Muestra las situaciones que atiende, calcula la indemnización por despido y recibe consultas por WhatsApp o correo. Se publica con GitHub Pages desde la rama `main`.
 
+## La identidad: "Lacre"
+
+El sello de lacre es el que cierra una carta personal: confidencialidad, compromiso y firma propia. El sitio funciona como la papelería de la abogada:
+
+- **Portada:** es una carta, con fecha de Montevideo, firma, aclaración, sello y posdata ("P. D.") con la primera consulta gratis.
+- **Sello:** lleva sus iniciales en el centro y, en el aro, su nombre, "Abogada laboralista" y la matrícula. Es la "firma y sello" con que firma los escritos, y se repite como logotipo, en el favicon, en los pasos de "Cómo trabajo" y en la estimación de la calculadora.
+- **Formulario:** es tu respuesta a la carta ("Para Ana Pérez"). Lo que completa la persona aparece en cursiva color lacre, como escrito a mano.
+- **Colores:** papel blanco, papel secante (rosado muy pálido) para los fondos alternos, lacre (bordó) y tinta.
+- **Tipografía:** Petrona, de Ringo Seeber, en todo el sitio. La cursiva hace de firma.
+
 ## Archivos
 
 | Archivo | Qué tiene |
 | --- | --- |
-| `index.html` | Página principal: portada con calculadora rápida, situaciones, calculadora completa, cómo trabajo, quién soy, preguntas y contacto. |
+| `index.html` | Página principal: la carta, situaciones, calculadora, cómo trabajo, quién soy, preguntas y contacto. |
 | `guia-despido.html` | Guía "Qué hacer si te despiden". |
 | `privacidad.html` | Política de privacidad (Ley 18.331). |
-| `styles.css` | Diseño. Los colores y medidas están al principio, en `:root`: petróleo, lino y un acento miel mínimo. |
-| `script.js` | Datos de contacto (`CONFIG`), menú, calculadora en pantalla y formulario. |
+| `styles.css` | Diseño. Los colores y medidas están al principio, en `:root`. |
+| `script.js` | Datos de contacto (`CONFIG`), menú, pestañas de situaciones, calculadora en pantalla y formulario. |
 | `calculo.js` | Reglas y cuentas de la calculadora (`REGLAS`). |
-| `fonts/` | Tipografías Faustina (títulos) y Source Sans 3 (texto), con licencia OFL, servidas desde el propio sitio. |
-| `favicon.svg` | Ícono de la pestaña. |
+| `fonts/` | Tipografía Petrona, normal y cursiva, con licencia OFL, servida desde el propio sitio. |
+| `favicon.svg` | Ícono de la pestaña: el sello con las iniciales en contornos. |
+| `herramientas/sello.py` | Regenera `favicon.svg` con otras iniciales. |
 
 ## Datos para completar antes de difundir el sitio
 
+El sitio usa un nombre de ejemplo, **Ana Pérez**, con las iniciales **AP**. Hay que reemplazarlo en todos los lugares:
+
 1. **WhatsApp, teléfono y correo:** al principio de `script.js`, en `CONFIG`. El WhatsApp va con 598 y sin el 0 inicial (099 123 456 → `59899123456`).
 2. **En los tres archivos `.html`:**
-   - `Nombre Apellido`.
-   - `Nombre`, en el botón "WhatsApp con Nombre".
-   - `N.º 00000`, la matrícula.
+   - `Ana Pérez` (y `Ana`, en el botón "WhatsApp con Ana").
+   - `Dra. Ana Pérez`, en el sello profesional de "Quién soy".
+   - `N.º 00000` y `MAT. 00000`, la matrícula.
    - `Dirección de la oficina`.
-3. **En "Quién soy" (`index.html`):**
+3. **El sello:** en cada `.html`, al principio, hay un bloque marcado con el comentario `SELLO`. Ahí se cambian las iniciales (`AP`, en dos lugares) y el texto del aro (`DRA. ANA PÉREZ • ABOGADA LABORALISTA • MAT. 00000 •`). Si el texto nuevo es mucho más largo o más corto, conviene revisar que el aro quede parejo.
+4. **El favicon:** se regenera con las iniciales nuevas:
+
+   ```sh
+   pip install fonttools brotli
+   python3 herramientas/sello.py AP
+   ```
+
+5. **En "Quién soy" (`index.html`):**
    - Los nombres de los posgrados.
    - Los idiomas.
    - Docencia y publicaciones, que está comentado y se activa si corresponde.
    - Los dos párrafos de presentación: el de compliance hay que confirmarlo.
-4. **Foto:** guardarla como `foto.jpg`, en retrato vertical 4:5. Aparece en dos lugares de `index.html`, cada uno marcado con un comentario: la firma de la portada, en círculo, y "Quién soy". Mientras no esté la foto se ven las iniciales `NA`; si se prefiere dejar iniciales, hay que cambiarlas por las reales.
+   - El título: "Doctora en Derecho y Ciencias Sociales", que es el que otorga la Udelar.
+6. **Foto:** cuando haya un retrato, guardarlo como `foto.jpg` y agregarlo en "Quién soy", donde lo indica el comentario.
 
 Para encontrar todo lo pendiente:
 
 ```sh
-grep -n "Nombre Apellido\|WhatsApp con Nombre\|00000\|Dirección de la oficina\|ejemplo.com\|>NA<" *.html script.js
+grep -n "Ana Pérez\|Ana<\|>AP<\|00000\|Dirección de la oficina\|ejemplo.com" *.html script.js
 ```
 
 ## Revisión legal pendiente

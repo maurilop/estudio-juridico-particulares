@@ -28,12 +28,15 @@ const CONFIG = {
   };
   const waUrl = (texto) =>
     "https://wa.me/" + CONFIG.whatsapp + (texto ? "?text=" + encodeURIComponent(texto) : "");
+  const fechaLarga = (d) => d.toLocaleDateString("es-UY", { day: "numeric", month: "long", year: "numeric" });
+  const fechaCorta = (d) => d.toLocaleDateString("es-UY");
 
-  /* ---------- Datos de contacto en todo el sitio ---------- */
+  /* ---------- Datos de contacto, año y fecha de la carta ---------- */
   $$(".js-wa").forEach((a) => { a.href = waUrl(a.dataset.texto); });
   $$(".js-email").forEach((a) => { a.href = "mailto:" + CONFIG.email; a.textContent = CONFIG.email; });
   $$(".js-tel").forEach((a) => { a.href = "tel:+" + CONFIG.whatsapp; a.textContent = CONFIG.telefono.replace(/ /g, " "); });
   $$(".js-anio").forEach((el) => { el.textContent = String(new Date().getFullYear()); });
+  $$(".js-fecha").forEach((el) => { el.textContent = "Montevideo, " + fechaLarga(new Date()); });
 
   /* ---------- Menú en pantallas chicas ---------- */
   const menuBoton = $(".menu-boton");
@@ -55,20 +58,25 @@ const CONFIG = {
     });
   }
 
-  /* ---------- WhatsApp fijo: se oculta sobre la sección de contacto ---------- */
+  /* ---------- WhatsApp fijo ----------
+     Se oculta mientras se ven los botones de la carta o la sección de contacto,
+     que ya ofrecen escribir por WhatsApp. */
   const flotante = $(".wa-flotante");
-  const seccionContacto = $("#contacto");
-  if (flotante && seccionContacto && "IntersectionObserver" in window) {
-    new IntersectionObserver(([entrada]) => {
-      const oculto = entrada.isIntersecting;
+  const zonasConBoton = $$(".carta-acciones, #contacto");
+  if (flotante && zonasConBoton.length && "IntersectionObserver" in window) {
+    const visibles = new Set();
+    const observador = new IntersectionObserver((entradas) => {
+      entradas.forEach((e) => (e.isIntersecting ? visibles.add(e.target) : visibles.delete(e.target)));
+      const oculto = visibles.size > 0;
       flotante.classList.toggle("oculto", oculto);
       flotante.setAttribute("tabindex", oculto ? "-1" : "0");
       flotante.setAttribute("aria-hidden", String(oculto));
-    }, { threshold: 0.1 }).observe(seccionContacto);
+    }, { threshold: 0.1 });
+    zonasConBoton.forEach((zona) => observador.observe(zona));
   }
 
-  /* ---------- Anchos de los espacios en blanco ----------
-     Los espacios de las frases miden lo mismo que el texto que tienen adentro. */
+  /* ---------- Anchos de los espacios para completar ----------
+     Cada renglón mide lo mismo que lo que tiene escrito. */
   const medidor = document.createElement("span");
   medidor.setAttribute("aria-hidden", "true");
   medidor.style.cssText = "position:absolute;left:-9999px;top:0;white-space:pre;visibility:hidden;";
@@ -79,7 +87,7 @@ const CONFIG = {
     medidor.style.fontFamily = estilo.fontFamily;
     medidor.style.fontSize = estilo.fontSize;
     medidor.style.fontWeight = estilo.fontWeight;
-    medidor.style.fontStretch = estilo.fontStretch;
+    medidor.style.fontStyle = estilo.fontStyle;
     medidor.style.letterSpacing = estilo.letterSpacing;
     medidor.style.fontVariantNumeric = estilo.fontVariantNumeric;
     medidor.textContent = contenido;
@@ -87,24 +95,16 @@ const CONFIG = {
   }
 
   function ajustarAncho(el) {
-    const enPortada = el.matches(".frase-texto .blanco");
-    const enFormulario = el.matches(".formulario-frase .blanco");
-    if (!enPortada && !enFormulario) return;
-
-    // Relleno horizontal de .blanco: 0,38em de cada lado, más 1px de borde.
+    if (!el.matches(".frase-texto .blanco, .formulario-frase .blanco")) return;
+    // Relleno horizontal de .blanco: 0,12em de cada lado.
     if (el.tagName === "SELECT") {
       const opcion = el.options[el.selectedIndex];
       const { ancho, em } = medir(el, opcion ? opcion.text : "");
-      el.style.width = Math.ceil(ancho + em * (0.38 + 1.5) + 6) + "px";
+      el.style.width = Math.ceil(ancho + em * (0.12 + 1.2) + 4) + "px";
       return;
     }
-    if (enPortada) {
-      const { ancho, em } = medir(el, el.value || "0");
-      el.style.width = Math.ceil(ancho + em * 0.76 + 4) + "px";
-      return;
-    }
-    const { ancho, em } = medir(el, el.value || el.placeholder || "");
-    el.style.width = Math.ceil(Math.max(ancho, em * 1.2) + em * 0.76 + 6) + "px";
+    const { ancho, em } = medir(el, el.value || el.placeholder || "0");
+    el.style.width = Math.ceil(Math.max(ancho, em * 0.8) + em * 0.24 + 4) + "px";
   }
 
   function ajustarTodos() { $$(".frase-texto .blanco, .formulario-frase .blanco").forEach(ajustarAncho); }
@@ -126,7 +126,7 @@ const CONFIG = {
     anuncioPendiente = setTimeout(() => { anuncio.textContent = texto; }, 800);
   }
 
-  /* ---------- Números que cambian ----------
+  /* ---------- Cifras que cambian ----------
      La cifra se reemplaza al instante y se tiñe un momento para que se note el cambio. */
   const ultimoValor = new WeakMap();
   function mostrarMonto(el, valor) {
@@ -140,17 +140,86 @@ const CONFIG = {
     el.classList.add("cambio");
   }
 
-  /* ---------- Desplegables: un enlace a una situación la abre ---------- */
-  function abrirDesplegable(id) {
-    const destino = id && document.getElementById(id);
-    if (destino && destino.tagName === "DETAILS") destino.open = true;
+  /* =========================================================
+     Situaciones: el índice se convierte en pestañas
+     Sin JavaScript, el índice son enlaces y todas las hojas se ven.
+     ========================================================= */
+  const consultorio = $("[data-pestanas]");
+  if (consultorio) {
+    const lista = $(".indice", consultorio);
+    const hojas = $$(".hoja", consultorio);
+    const ids = hojas.map((h) => h.id);
+    lista.setAttribute("role", "tablist");
+    lista.setAttribute("aria-orientation", "vertical");
+    lista.setAttribute("aria-label", "Situaciones");
+
+    const pestanas = $$("a", lista).map((a) => {
+      const id = a.getAttribute("href").slice(1);
+      const boton = document.createElement("button");
+      boton.type = "button";
+      boton.id = "pestana-" + id;
+      boton.textContent = a.textContent;
+      boton.setAttribute("role", "tab");
+      boton.setAttribute("aria-controls", id);
+      a.parentElement.setAttribute("role", "presentation");
+      a.replaceWith(boton);
+      return boton;
+    });
+    hojas.forEach((h) => {
+      h.setAttribute("role", "tabpanel");
+      h.setAttribute("aria-labelledby", "pestana-" + h.id);
+      h.tabIndex = 0;
+    });
+    consultorio.classList.add("con-pestanas");
+
+    const elegir = (id, opciones) => {
+      const { enfocar = false, mostrar = false } = opciones || {};
+      pestanas.forEach((b) => {
+        const activa = b.getAttribute("aria-controls") === id;
+        b.setAttribute("aria-selected", String(activa));
+        b.tabIndex = activa ? 0 : -1;
+        if (activa && enfocar) b.focus();
+      });
+      hojas.forEach((h) => { h.hidden = h.id !== id; });
+      if (mostrar && window.matchMedia("(max-width: 1000px)").matches) {
+        document.getElementById(id).scrollIntoView({ behavior: sinMovimiento ? "auto" : "smooth", block: "start" });
+      }
+    };
+
+    pestanas.forEach((boton, i) => {
+      boton.addEventListener("click", () => {
+        const id = boton.getAttribute("aria-controls");
+        elegir(id, { mostrar: true });
+        history.replaceState(null, "", "#" + id);
+      });
+      boton.addEventListener("keydown", (e) => {
+        const pasos = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 };
+        let destino = null;
+        if (e.key in pasos) destino = pestanas[(i + pasos[e.key] + pestanas.length) % pestanas.length];
+        else if (e.key === "Home") destino = pestanas[0];
+        else if (e.key === "End") destino = pestanas[pestanas.length - 1];
+        if (!destino) return;
+        e.preventDefault();
+        elegir(destino.getAttribute("aria-controls"), { enfocar: true });
+      });
+    });
+
+    // Los enlaces de la carta (#despido, #acoso…) abren su hoja antes de desplazarse.
+    $$('a[href^="#"]').forEach((a) => {
+      const id = a.getAttribute("href").slice(1);
+      if (ids.includes(id)) a.addEventListener("click", () => elegir(id));
+    });
+    const desdeDireccion = () => {
+      const id = decodeURIComponent(location.hash.slice(1));
+      if (ids.includes(id)) { elegir(id); return true; }
+      return false;
+    };
+    window.addEventListener("hashchange", desdeDireccion);
+    if (!desdeDireccion()) elegir(ids[0]);
   }
-  $$('a[href^="#"]').forEach((a) => a.addEventListener("click", () => abrirDesplegable(a.getAttribute("href").slice(1))));
-  window.addEventListener("hashchange", () => abrirDesplegable(decodeURIComponent(location.hash.slice(1))));
-  abrirDesplegable(decodeURIComponent(location.hash.slice(1)));
 
   /* =========================================================
-     Calculadora (portada + sección completa)
+     Calculadora: la frase, los detalles y la estimación
      ========================================================= */
   const C = window.Calculo;
   const campos = $$("[data-campo]");
@@ -175,8 +244,19 @@ const CONFIG = {
       const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(texto || "");
       return m ? new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3])) : null;
     };
-    const fechaLarga = (d) => d.toLocaleDateString("es-UY", { day: "numeric", month: "long", year: "numeric" });
-    const fechaCorta = (d) => d.toLocaleDateString("es-UY");
+
+    const dinero = $("#c-dinero");
+    const periodo = $("#c-periodo");
+    const dineroEtiqueta = $("#c-dinero-etiqueta");
+
+    // Si cobra por jornal, el monto de la frase pasa a ser el jornal.
+    function actualizarForma() {
+      const esJornal = estado.forma === "jornal";
+      if (dinero) dinero.dataset.campo = esJornal ? "jornal" : "monto";
+      if (periodo) periodo.textContent = esJornal ? "por jornal" : "por mes";
+      if (dineroEtiqueta) dineroEtiqueta.textContent = esJornal ? "Valor del jornal nominal, en pesos" : "Sueldo nominal por mes, en pesos";
+      $$("[data-solo]").forEach((el) => { el.hidden = el.dataset.solo !== estado.forma; });
+    }
 
     function antiguedad() {
       const total = C.mesesTotales(estado.anios, estado.meses);
@@ -222,41 +302,13 @@ const CONFIG = {
       sincronizar(null);
     }
 
-    /* ----- Portada ----- */
-    const rIntro = $("#r-intro");
-    const rTotal = $("#r-total");
-    const rDetalle = $("#r-detalle");
-
-    function renderPortada() {
-      if (!rTotal) return;
-      const { total } = antiguedad();
-      if (!estado.monto || total === 0) {
-        rIntro.textContent = !estado.monto
-          ? "Completá tu sueldo para ver cuánto te corresponde."
-          : "Completá cuánto tiempo trabajaste para ver cuánto te corresponde.";
-        mostrarMonto(rTotal, 0);
-        rDetalle.textContent = "Un sueldo por cada año o fracción trabajada, hasta seis.";
-        return;
-      }
-      const sueldos = C.sueldosPorDespido(estado.anios, estado.meses);
-      const indemnizacion = sueldos * estado.monto;
-      rIntro.textContent = "Por un despido sin causa te corresponden, como mínimo,";
-      mostrarMonto(rTotal, indemnizacion);
-      let detalle = "Un sueldo por cada año o fracción trabajada, hasta seis: en tu caso, " + sueldos + ".";
-      if (total < 3) detalle += " Si estabas en un período de prueba acordado por escrito, puede no corresponder.";
-      detalle += " Además te tienen que pagar la licencia, el salario vacacional y el aguinaldo.";
-      rDetalle.textContent = detalle;
-      return indemnizacion;
-    }
-
-    /* ----- Calculadora completa ----- */
     const notasBase = [
       "No incluye horas extra, diferencias de sueldo ni los días trabajados del último mes.",
       "Muchos reclamos suman a la base de la indemnización la incidencia del aguinaldo, la licencia y el salario vacacional, y eso puede aumentar el monto.",
       "No aplica a la industria de la construcción, que tiene un régimen propio.",
     ];
 
-    function texto(sel, valor) { const el = $(sel); if (el) el.textContent = valor; }
+    const texto = (sel, valor) => { const el = $(sel); if (el) el.textContent = valor; };
 
     function mensajeCuenta(r, ant) {
       const lineas = ["Hola, hice la cuenta en tu sitio y quiero revisarla en la consulta gratuita."];
@@ -272,10 +324,8 @@ const CONFIG = {
       return lineas.join("\n");
     }
 
-    function renderCalculadora() {
-      if (!$("#c-ipd")) return null;
-      $$("[data-solo]").forEach((el) => { el.hidden = el.dataset.solo !== estado.forma; });
-
+    function render(conAnuncio) {
+      if (!$("#c-ipd")) return;
       const r = C.calcularLiquidacion(estado);
       const ant = antiguedad();
 
@@ -289,7 +339,7 @@ const CONFIG = {
         detalleIpd = r.unidades + (r.unidades === 1 ? " sueldo" : " sueldos") + " por " + ant.texto + (r.enTope ? ", el máximo legal" : "");
       }
 
-      texto("#c-ipd", pesos(r.indemnizacion));
+      mostrarMonto($("#c-ipd"), r.indemnizacion);
       texto("#c-ipd-detalle", detalleIpd);
       texto("#c-lic", pesos(r.licencia));
       texto("#c-lic-detalle", fmtDecimal.format(r.diasLicencia) + (r.diasLicencia === 1 ? " día" : " días"));
@@ -314,21 +364,14 @@ const CONFIG = {
 
       const enlace = $(".js-wa-cuenta");
       if (enlace) enlace.href = waUrl(mensajeCuenta(r, ant));
-      return r;
-    }
-
-    function render(conAnuncio) {
-      const indemnizacion = renderPortada();
-      const r = renderCalculadora();
-      if (!conAnuncio) return;
-      if (r) anunciar("Total estimado: " + pesos(r.total) + ". Indemnización por despido: " + pesos(r.indemnizacion) + ".");
-      else if (indemnizacion) anunciar("Te corresponden como mínimo " + pesos(indemnizacion) + ".");
+      if (conAnuncio) anunciar("Total estimado: " + pesos(r.total) + ". Indemnización por despido: " + pesos(r.indemnizacion) + ".");
     }
 
     campos.forEach((el) => {
       const evento = el.type === "radio" || el.type === "checkbox" ? "change" : "input";
       el.addEventListener(evento, () => {
         leerCampo(el);
+        if (el.type === "radio") actualizarForma();
         sincronizar(el);
         ajustarAncho(el);
         render(true);
@@ -339,6 +382,7 @@ const CONFIG = {
       }
     });
 
+    actualizarForma();
     sincronizar(null);
     render(false);
   }
