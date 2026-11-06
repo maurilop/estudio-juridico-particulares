@@ -115,7 +115,7 @@ Las demás son de [Unsplash](https://unsplash.com/license): se pueden usar grati
 | --- | --- | --- |
 | `puertas.webp` | Portada (a reemplazar por una de Montevideo) | `images.unsplash.com/photo-1481277542470-605612bd2d61` |
 | `arquitectura.webp` | Banda "Antes de firmar" (a reemplazar por una de Montevideo) | `images.unsplash.com/photo-1518005020951-eccb494ad742` |
-| `conversacion.webp` | Cómo trabajo | `images.unsplash.com/photo-1517245386807-bb43f82c33c4` |
+| `firma.webp` | Cómo trabajo (espejada) | [Gabrielle Henderson](https://unsplash.com/es/fotos/woman-signing-on-white-printer-paper-beside-woman-about-to-touch-the-documents-HJckKnwCXxQ) |
 | `pluma.webp` | Guía "Qué hacer si te despiden" | `images.unsplash.com/photo-1455390582262-044cdead277a` |
 
 Para cambiar una foto alcanza con reemplazar el archivo por otro con la misma proporción: 4:5 en la portada y en las columnas, 2:1 en la banda y 16:9 en la guía. Si la nueva foto pide crédito, hay que agregarlo en el pie de `index.html`.
