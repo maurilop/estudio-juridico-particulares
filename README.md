@@ -23,6 +23,7 @@ La idea es "primero se lee, después se firma": todo entra en el orden de lectur
 - **Al cargar:** la portada y el comienzo de las páginas internas entran con animaciones de CSS.
 - **Al bajar:** `script.js` marca lo que se mueve (la lista `MOVIMIENTOS`) y lo muestra cuando entra en pantalla: los encabezados, las listas y las tarjetas aparecen de a uno; las fotos se revelan desde abajo; los bloques en L crecen desde su esquina y el sello profesional se estampa al final. Para sumar un elemento, alcanza con agregar una fila a esa lista.
 - **Fotos:** se bajan apenas se abre la página, con prioridad baja para no demorar la de la portada, así ya están listas cuando llegás a su sección. Cada foto aparece recién cuando está lista para dibujarse: si alguna tarda, su sección la espera hasta 3 segundos y después entra con su transición.
+- **Resaltador:** en la declaración ("Para trabajadoras y trabajadores"), al pasar el puntero por un enlace entra una franja lacre claro, como un resaltador, y las letras se vuelven tinta a su paso. Con el teclado pasa lo mismo al llegar con Tab. Para que un enlace nuevo se resalte, su texto va dentro de un `<span>`: `<a href="#despido"><span>despido</span></a>`. Sin el `<span>` queda subrayado común.
 - **Movimiento reducido:** si el dispositivo pide reducir el movimiento, no se anima nada. Al imprimir, todo aparece.
 
 ## Archivos

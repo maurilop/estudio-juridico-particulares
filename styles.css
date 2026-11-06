@@ -267,17 +267,22 @@ a:hover { color: var(--lacre-oscuro); }
   line-height: 1.25;
   -webkit-appearance: none;
   appearance: none;
+  /* Los espacios están dentro de la frase: la mano avisa que se pueden completar
+     (sobre el texto común también aparece la barra de escribir). */
+  cursor: pointer;
   transition: border-color var(--mov-breve), background-color var(--mov-breve);
 }
 .blanco:hover { border-bottom-color: var(--lacre); }
 .blanco:focus { outline: none; border-bottom-color: var(--lacre); background-color: var(--lacre-claro); }
+/* Una vez adentro, vuelve la barra para ubicarse en el texto (salvo en la fecha y las listas). */
+input.blanco:not([type="date"]):focus { cursor: text; }
+.blanco::-webkit-calendar-picker-indicator { cursor: pointer; }
 select.blanco {
   padding-right: 1.2em;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%237a1f2b' stroke-width='1.6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.1em center;
   background-size: 0.5em auto;
-  cursor: pointer;
 }
 .junto { white-space: nowrap; }
 
@@ -359,7 +364,54 @@ select.blanco {
   letter-spacing: -0.01em;
 }
 .declaracion a { color: #fff; text-decoration-color: rgba(255, 255, 255, 0.4); text-decoration-thickness: 1px; }
-.declaracion a:hover { color: #fff; text-decoration-color: #fff; }
+.declaracion a:hover { color: #fff; }
+.declaracion :focus-visible { outline-color: #fff; }
+/* Al pasar el puntero, cada enlace se resalta como con un resaltador: una franja
+   lacre claro entra desde la izquierda, tapa el subrayado y vuelve tinta las
+   letras a su paso. La franja y el subrayado están en el enlace; la tinta de las
+   letras, en su <span>. Las dos cajas miden lo mismo y se mueven igual, así que
+   el borde de la franja y el cambio de color avanzan juntos: nunca queda texto
+   oscuro sobre el fondo oscuro. */
+.declaracion a, .declaracion a > span { margin: 0 -0.06em; padding: 0.06em; }
+@supports ((-webkit-background-clip: text) or (background-clip: text)) and selector(:has(*)) {
+  .declaracion a, .declaracion a > span {
+    background-repeat: no-repeat;
+    background-size: calc(200% + 0.3em) 100%;
+    background-position: 100% 0;
+    transition: background-position var(--mov-breve) var(--curva-calma);
+  }
+  /* El subrayado va como fondo: con text-decoration, el navegador lo pintaría
+     del mismo color que las letras recortadas. Un enlace sin <span> conserva
+     el subrayado común y no se resalta. */
+  .declaracion a:has(> span) {
+    text-decoration: none;
+    background-image:
+      linear-gradient(100deg, var(--lacre-claro) 50%, transparent 50%),
+      linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4));
+    background-size: calc(200% + 0.3em) 100%, 100% 1px;
+    background-position: 100% 0, 0 100%;
+    background-origin: padding-box, content-box;
+  }
+  .declaracion a > span {
+    background-image: linear-gradient(100deg, var(--tinta) 50%, #fff 50%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .declaracion a > span::selection { -webkit-text-fill-color: var(--tinta); }
+  .declaracion a:focus-visible { background-position: 0 0, 0 100%; }
+  .declaracion a:focus-visible > span { background-position: 0 0; }
+  .declaracion a:focus-visible, .declaracion a:focus-visible > span { transition-duration: var(--mov-medio); transition-timing-function: var(--curva-firme); }
+  @media (hover: hover) {
+    .declaracion a:hover { background-position: 0 0, 0 100%; }
+    .declaracion a:hover > span { background-position: 0 0; }
+    .declaracion a:hover, .declaracion a:hover > span { transition-duration: var(--mov-medio); transition-timing-function: var(--curva-firme); }
+  }
+}
+@media (forced-colors: active) {
+  .declaracion a { text-decoration: underline; }
+  .declaracion a, .declaracion a > span { background: none; -webkit-text-fill-color: currentColor; }
+}
 .declaracion-firma { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; max-width: none; margin: 0; color: var(--pizarra-clara); font-size: 0.9375rem; }
 .declaracion .firma { color: #fff; font-size: 2.125rem; line-height: 1; }
 
@@ -451,7 +503,7 @@ select.blanco {
 .ayuda { margin: 8px 0 0; color: var(--tinta-suave); font-size: 0.875rem; line-height: 1.5; }
 
 .opcion { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; margin-right: 28px; font-size: 1rem; cursor: pointer; }
-.opcion input { width: 18px; height: 18px; margin: 0; flex: none; accent-color: var(--lacre); }
+.opcion input { width: 18px; height: 18px; margin: 0; flex: none; accent-color: var(--lacre); cursor: pointer; }
 .opcion-larga { display: flex; align-items: flex-start; max-width: 44ch; margin-right: 0; color: var(--tinta-suave); font-size: 0.9375rem; line-height: 1.5; }
 .opcion-larga input { margin-top: 3px; }
 
@@ -695,7 +747,7 @@ select.blanco {
 .formulario textarea:focus { outline: none; border-color: var(--lacre); box-shadow: 0 0 0 3px var(--lacre-claro); }
 
 .consentimiento { display: flex; align-items: flex-start; gap: 12px; max-width: 60ch; margin: 26px 0 8px; font-size: 0.9375rem; cursor: pointer; }
-.consentimiento input { width: 18px; height: 18px; margin: 3px 0 0; flex: none; accent-color: var(--lacre); }
+.consentimiento input { width: 18px; height: 18px; margin: 3px 0 0; flex: none; accent-color: var(--lacre); cursor: pointer; }
 .consentimiento input[aria-invalid="true"] { outline: 2px solid var(--error); outline-offset: 2px; }
 .aviso { max-width: 60ch; color: var(--tinta-suave); font-size: 0.875rem; }
 .form-error { max-width: 60ch; margin: 16px 0; padding: 12px 16px; border-left: 3px solid var(--error); background: #fbeeee; color: var(--error); font-weight: 600; }
@@ -898,6 +950,8 @@ select.blanco {
 
 @media print {
   [data-mov] { opacity: 1 !important; translate: 0 0 !important; scale: 1 !important; clip-path: none !important; }
+  .declaracion a { text-decoration: underline; }
+  .declaracion a, .declaracion a > span { background: none !important; -webkit-text-fill-color: currentColor; }
 }
 
 @media (prefers-reduced-motion: reduce) {
