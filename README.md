@@ -82,6 +82,7 @@ La calculadora y algunos textos citan reglas generales de la ley uruguaya. Las t
 - **Ministerio de Trabajo:** la audiencia de conciliación es previa al juicio, y desde 20 UR hay que ir con abogado.
 - **Acoso sexual:** la Ley 18.561.
 - **Accidentes de trabajo:** la cobertura del BSE.
+- **Despido especial por paternidad o adopción:** no se puede despedir durante la licencia ni en los 30 días posteriores al regreso; si ocurre, corresponden tres meses de sueldo además de la indemnización (Ley 19.161, art. 8 bis). Aparece en "Me despidieron", en la calculadora y en la guía.
 
 **Otros puntos a revisar:**
 
