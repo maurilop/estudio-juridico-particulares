@@ -21,6 +21,7 @@ El sitio toma la sobriedad editorial de los grandes estudios jurídicos: titular
 | `index.html` | Página principal: portada, declaración, situaciones, calculadora, antes de firmar, cómo trabajo, quién soy, preguntas y contacto. |
 | `guia-despido.html` | Guía "Qué hacer si te despiden". |
 | `privacidad.html` | Política de privacidad (Ley 18.331). |
+| `novedades.html` | Novedades laborales: cada una con su fecha, su explicación y su fuente. |
 | `styles.css` | Diseño. Los colores y medidas están al principio, en `:root`. |
 | `script.js` | Datos de contacto (`CONFIG`), menú, pestañas de situaciones, calculadora en pantalla y formulario. |
 | `calculo.js` | Reglas y cuentas de la calculadora (`REGLAS`). |
@@ -28,6 +29,7 @@ El sitio toma la sobriedad editorial de los grandes estudios jurídicos: titular
 | `fotos/` | Las fotos del sitio, en WebP. |
 | `favicon.svg` | Ícono de la pestaña: el sello con las iniciales en contornos. |
 | `herramientas/sello.py` | Regenera `favicon.svg` con otras iniciales. |
+| `herramientas/novedades.py` | Copia las tres últimas novedades a la portada. |
 
 ## Datos para completar antes de difundir el sitio
 
@@ -104,10 +106,28 @@ Para cambiar una foto alcanza con reemplazar el archivo por otro con la misma pr
 
 El sitio no usa cookies, analítica ni servicios externos: las tipografías y las fotos se sirven desde el propio sitio. El formulario no guarda datos; arma el mensaje y lo abre en el WhatsApp o en el correo de la persona. Si más adelante se agrega analítica, hay que sumar un aviso de cookies con opción de rechazar y actualizar `privacidad.html`.
 
+## Novedades laborales
+
+La portada muestra las tres últimas y `novedades.html` tiene todas. Para que el sitio se vea al día, conviene sumar al menos una por mes.
+
+Para agregar una:
+
+1. En `novedades.html`, copiar un bloque `<article class="novedad">` completo y pegarlo **al principio** de la lista, porque van de la más nueva a la más vieja.
+2. Cambiar el `id` (sin espacios ni tildes, por ejemplo `aumento-salario-minimo-2027`), el tema, la fecha (el `datetime` en formato año-mes-día y el texto visible), el título, el resumen, el texto, "Qué significa para vos" y la fuente. Cada novedad lleva al menos un enlace a una fuente oficial o a un medio reconocido.
+3. Actualizar la portada:
+
+   ```sh
+   python3 herramientas/novedades.py
+   ```
+
+   El script copia las tres primeras a `index.html` y pone la fecha de la última como "Última actualización". Si falta algún dato o el orden de las fechas está mal, avisa y no cambia nada.
+
+Las ocho novedades iniciales (noviembre de 2026) las verifiqué en IMPO, el Ministerio de Trabajo, Presidencia y El Observador, pero están escritas en primera persona y la abogada tiene que revisarlas antes de difundir el sitio, como el resto de los textos.
+
 ## Cómo agregar contenido
 
 - **Nueva guía:** copiar `guia-despido.html`, cambiar el título, la descripción y los pasos, y enlazarla desde "Preguntas frecuentes" en `index.html`.
-- **Novedades laborales:** la idea es publicar alertas breves y fechadas sobre cambios normativos o fallos relevantes, como una serie con nombre propio. Conviene sumarlas cuando estén las primeras, para no mostrar una sección vacía.
+- **Novedades laborales:** ver la sección siguiente.
 
 ## Ver el sitio en la computadora
 
