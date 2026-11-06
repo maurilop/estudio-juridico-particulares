@@ -52,6 +52,16 @@
   --margen: clamp(16px, 4.5vw, 56px);
   --separacion: clamp(80px, 9vw, 136px);
   --bloque: clamp(18px, 2.6vw, 36px);
+
+  /* Movimiento: tiempos y curvas (ver "Movimiento" más abajo) */
+  --mov-breve: 160ms;
+  --mov-medio: 480ms;
+  --mov-largo: 900ms;
+  --mov-escalon: 80ms;
+  --mov-distancia: 16px;
+  --curva-calma: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --curva-firme: cubic-bezier(0.65, 0, 0.35, 1);
+  --curva-sello: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -149,7 +159,7 @@ a:hover { color: var(--lacre-oscuro); }
   text-decoration: none;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+  transition: background-color var(--mov-breve), border-color var(--mov-breve), color var(--mov-breve);
 }
 .boton:hover { background: var(--lacre-oscuro); border-color: var(--lacre-oscuro); color: #fff; }
 .boton-linea { background: transparent; border-color: rgba(29, 43, 51, 0.4); color: var(--tinta); }
@@ -171,8 +181,9 @@ a:hover { color: var(--lacre-oscuro); }
   margin-left: 12px;
   font-size: 1.15em;
   letter-spacing: 0;
-  transition: transform 0.2s;
+  transition: transform var(--mov-breve) var(--curva-calma);
 }
+.enlace-ceja, .enlace-fuerte { transition: color var(--mov-breve); }
 .enlace-ceja:hover, .enlace-fuerte:hover { color: var(--lacre); }
 .enlace-ceja:hover::after, .enlace-fuerte:hover::after { transform: translateX(4px); }
 
@@ -236,6 +247,9 @@ a:hover { color: var(--lacre-oscuro); }
 .bloque-inferior::after { right: 0; bottom: 0; width: var(--bloque); height: 280%; min-height: 150px; }
 .bloque-lateral { right: calc(var(--bloque) * -1); bottom: calc(var(--bloque) * -1); width: var(--bloque); height: 58%; }
 .bloque-lateral::after { right: 0; bottom: 0; width: 220px; height: var(--bloque); }
+/* Cada L crece desde su esquina. */
+.bloque-superior { transform-origin: left top; }
+.bloque-inferior, .bloque-lateral { transform-origin: right bottom; }
 
 /* ---------- Espacios para completar ---------- */
 .blanco {
@@ -253,7 +267,7 @@ a:hover { color: var(--lacre-oscuro); }
   line-height: 1.25;
   -webkit-appearance: none;
   appearance: none;
-  transition: border-color 0.15s, background-color 0.15s;
+  transition: border-color var(--mov-breve), background-color var(--mov-breve);
 }
 .blanco:hover { border-bottom-color: var(--lacre); }
 .blanco:focus { outline: none; border-bottom-color: var(--lacre); background-color: var(--lacre-claro); }
@@ -292,7 +306,7 @@ select.blanco {
   width: 100%;
   aspect-ratio: 4 / 5;
   object-fit: cover;
-  animation: revelar 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.1s both;
+  animation: revelar var(--mov-largo) var(--curva-firme) 120ms both;
 }
 .portada-sello {
   position: absolute;
@@ -303,7 +317,23 @@ select.blanco {
   height: 156px;
   filter: drop-shadow(0 8px 14px rgba(29, 43, 51, 0.24));
   transform: rotate(-10deg);
-  animation: sellar 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0.95s both;
+  animation: sellar 700ms var(--curva-sello) 1300ms both;
+}
+/* Entrada de la portada: primero se lee y después se firma. Etiqueta, título,
+   texto, acciones y nota, de a una; la foto se revela a la par; los bloques
+   crecen desde su esquina y el sello llega al final. */
+.portada-texto > * { animation: aparecer var(--mov-medio) var(--curva-calma) both; }
+.portada-texto > :nth-child(1) { animation-delay: 100ms; }
+.portada-texto > :nth-child(2) { animation-delay: 180ms; }
+.portada-texto > :nth-child(3) { animation-delay: 260ms; }
+.portada-texto > :nth-child(4) { animation-delay: 340ms; }
+.portada-texto > :nth-child(5) { animation-delay: 420ms; }
+.portada-foto .bloque { animation: crecer var(--mov-largo) var(--curva-firme) 700ms both; }
+@keyframes aparecer {
+  from { opacity: 0; translate: 0 var(--mov-distancia); }
+}
+@keyframes crecer {
+  from { scale: 0; }
 }
 @keyframes revelar {
   from { clip-path: inset(100% 0 0 0); transform: scale(1.05); }
@@ -365,7 +395,7 @@ select.blanco {
   text-align: left;
   text-decoration: none;
   cursor: pointer;
-  transition: color 0.2s;
+  transition: color var(--mov-breve);
 }
 .indice a::after, .indice button::after {
   content: "→";
@@ -374,7 +404,7 @@ select.blanco {
   font: 400 1.125rem var(--sans);
   opacity: 0;
   transform: translateX(-6px);
-  transition: opacity 0.2s, transform 0.2s;
+  transition: opacity var(--mov-breve), transform var(--mov-breve) var(--curva-calma);
 }
 .indice a:hover, .indice button:hover, .indice [aria-selected="true"] { color: var(--tinta); }
 .indice button:hover::after, .indice [aria-selected="true"]::after { opacity: 1; transform: none; }
@@ -486,6 +516,7 @@ select.blanco {
 .dividido-foto img { position: relative; z-index: 1; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
 .dividido-invertido .bloque-lateral { right: auto; left: calc(var(--bloque) * -1); }
 .dividido-invertido .bloque-lateral::after { right: auto; left: 0; }
+.dividido-invertido .bloque-lateral { transform-origin: left bottom; }
 
 .pasos { margin: 0; padding: 0; list-style: none; counter-reset: paso; }
 .pasos li {
@@ -529,6 +560,8 @@ select.blanco {
   font-family: var(--serif);
   text-align: center;
   transform: rotate(-3deg);
+  /* Al sellarse crece desde el borde derecho, para no salirse de la pantalla en el teléfono. */
+  transform-origin: 100% 50%;
 }
 .sp-nombre { font-size: 1.375rem; font-weight: 600; line-height: 1.2; }
 .sp-rol { font-size: 1.0625rem; font-style: italic; }
@@ -578,7 +611,7 @@ select.blanco {
   margin-top: auto;
   padding-top: 24px;
   font-size: 1.125rem;
-  transition: transform 0.2s;
+  transition: transform var(--mov-breve) var(--curva-calma);
 }
 .novedad-tarjeta:hover::after { transform: translateX(4px); }
 .novedad-tarjeta:focus-within { outline: 2px solid #fff; outline-offset: 8px; }
@@ -689,7 +722,7 @@ select.blanco {
   box-shadow: 0 4px 18px rgba(29, 43, 51, 0.2);
   color: var(--tinta);
   text-decoration: none;
-  transition: opacity 0.2s, transform 0.2s;
+  transition: opacity var(--mov-medio) var(--curva-calma), transform var(--mov-medio) var(--curva-calma);
 }
 .wa-flotante:hover { color: var(--tinta); }
 .wa-flotante.oculto { opacity: 0; transform: translateY(12px); pointer-events: none; }
@@ -805,6 +838,57 @@ select.blanco {
   .sello-profesional { right: 14px; padding: 12px 18px 10px; }
   .pagina-foto { margin-right: var(--bloque); }
   .sp-nombre { font-size: 1.125rem; }
+}
+
+/* ---------- Movimiento ----------
+   Lo que entra al cargar (la portada y el comienzo de cada página) usa
+   animaciones. Lo que aparece al bajar lo marca script.js con data-mov
+   ("aparece", "revela", "crece" o "sella") y el orden dentro de su grupo
+   (--orden); cuando el grupo entra en pantalla recibe .en-vista, una sola vez. */
+.pagina-cuerpo > .ceja, .pagina-cuerpo > h1, .novedades-cabeza > *, .pagina-bajada, .pagina-fecha {
+  animation: aparecer var(--mov-medio) var(--curva-calma) both;
+}
+.pagina-cuerpo > .ceja, .novedades-cabeza > .ceja { animation-delay: 100ms; }
+.pagina-cuerpo > h1, .novedades-cabeza > h1 { animation-delay: 180ms; }
+.pagina-bajada { animation-delay: 260ms; }
+.pagina-fecha { animation-delay: 340ms; }
+.pagina-foto img { animation: revelar var(--mov-largo) var(--curva-firme) 200ms both; }
+.pagina-foto .bloque { animation: crecer var(--mov-largo) var(--curva-firme) 750ms both; }
+
+[data-mov] { transition-delay: calc(var(--orden, 0) * var(--mov-escalon) + var(--mov-retraso, 0ms)); }
+[data-mov="aparece"] {
+  opacity: 0;
+  translate: 0 var(--mov-distancia);
+  transition-property: opacity, translate;
+  transition-duration: var(--mov-medio);
+  transition-timing-function: var(--curva-calma);
+}
+[data-mov="revela"] {
+  clip-path: inset(100% 0 0 0);
+  transition-property: clip-path;
+  transition-duration: var(--mov-largo);
+  transition-timing-function: var(--curva-firme);
+}
+[data-mov="crece"] {
+  --mov-retraso: 450ms;
+  scale: 0;
+  transition-property: scale;
+  transition-duration: var(--mov-largo);
+  transition-timing-function: var(--curva-firme);
+}
+[data-mov="sella"] {
+  --mov-retraso: 900ms;
+  opacity: 0;
+  scale: 1.3;
+  transition-property: opacity, scale;
+  transition-duration: 200ms, var(--mov-medio);
+  transition-timing-function: ease-out, var(--curva-sello);
+}
+.banda-tarjeta[data-mov] { --mov-retraso: 300ms; }
+.en-vista [data-mov], [data-mov].en-vista { opacity: 1; translate: 0 0; scale: 1; clip-path: inset(0 0 0 0); }
+
+@media print {
+  [data-mov] { opacity: 1 !important; translate: 0 0 !important; scale: 1 !important; clip-path: none !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {

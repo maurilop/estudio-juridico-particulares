@@ -38,6 +38,49 @@ const CONFIG = {
   $$(".js-anio").forEach((el) => { el.textContent = String(new Date().getFullYear()); });
   $$(".js-fecha").forEach((el) => { el.textContent = "Montevideo, " + fechaLarga(new Date()); });
 
+  /* ---------- Movimiento: lo que aparece al bajar, una sola vez ---------- */
+  // Cada fila: dónde están los grupos, qué se mueve dentro de cada uno (null: el grupo
+  // entero) y cómo. Los tiempos y las curvas están en styles.css ("Movimiento").
+  const MOVIMIENTOS = [
+    [".encabezado, .novedades-encabezado, .contacto-intro", ":scope > *", "aparece"],
+    [".declaracion .contenedor", ":scope > *", "aparece"],
+    [".dividido-texto", ":scope > :not(.pasos):not(.ficha)", "aparece"],
+    [".pasos, .ficha, .preguntas, .indice, .novedades-grilla, .guia-pasos", ":scope > *", "aparece"],
+    [".hojas, .frase, .novedad", null, "aparece"],
+    [".dividido-foto", ":scope > img", "revela"],
+    [".dividido-foto", ":scope > .bloque", "crece"],
+    [".dividido-foto", ":scope > .sello-profesional", "sella"],
+    [".banda", ":scope > .banda-foto", "revela"],
+    [".banda", ".banda-tarjeta", "aparece"],
+  ];
+  if (!sinMovimiento && "IntersectionObserver" in window) {
+    const marcados = new Map();
+    const observador = new IntersectionObserver((entradas) => {
+      entradas.forEach((entrada) => {
+        if (!entrada.isIntersecting) return;
+        const grupo = entrada.target;
+        observador.unobserve(grupo);
+        grupo.classList.add("en-vista");
+        // Al terminar se quitan las marcas: cada elemento vuelve a sus estilos de siempre.
+        setTimeout(() => {
+          (marcados.get(grupo) || []).forEach((el) => { el.removeAttribute("data-mov"); el.style.removeProperty("--orden"); });
+          grupo.classList.remove("en-vista");
+        }, 2400);
+      });
+    }, { rootMargin: "0px 0px -10% 0px" });
+
+    MOVIMIENTOS.forEach(([grupos, elementos, movimiento]) => {
+      $$(grupos).forEach((grupo) => {
+        // Lo que ya se ve al cargar la página no se anima.
+        if (grupo.getBoundingClientRect().top < window.innerHeight * 0.9) return;
+        const lista = elementos ? $$(elementos, grupo) : [grupo];
+        lista.forEach((el, i) => { el.dataset.mov = movimiento; el.style.setProperty("--orden", i); });
+        marcados.set(grupo, (marcados.get(grupo) || []).concat(lista));
+        observador.observe(grupo);
+      });
+    });
+  }
+
   /* ---------- Menú en pantallas chicas ---------- */
   const menuBoton = $(".menu-boton");
   const menu = $("#menu");
