@@ -268,7 +268,7 @@ const CONFIG = {
       });
     });
 
-    // Los enlaces de la carta (#despido, #acoso…) abren su hoja antes de desplazarse.
+    // Los enlaces de la declaración (#desvinculacion, #acoso…) abren su hoja antes de desplazarse.
     $$('a[href^="#"]').forEach((a) => {
       const id = a.getAttribute("href").slice(1);
       if (ids.includes(id)) a.addEventListener("click", () => elegir(id));
@@ -367,23 +367,23 @@ const CONFIG = {
     }
 
     const notasBase = [
-      "No incluye horas extra, diferencias de sueldo ni los días trabajados del último mes.",
-      "En muchos reclamos se suma a la base de la indemnización la incidencia del aguinaldo, la licencia y el salario vacacional, lo que puede aumentar el monto.",
+      "No incluye los días trabajados del último mes, las horas extra, otras partidas variables ni los aportes patronales que correspondan.",
+      "Si el despido termina en un reclamo, es frecuente que se sume a la base de la indemnización la incidencia del aguinaldo, la licencia y el salario vacacional, lo que aumenta el monto.",
       "No aplica a la industria de la construcción, que tiene un régimen propio.",
     ];
 
     const texto = (sel, valor) => { const el = $(sel); if (el) el.textContent = valor; };
 
     function mensajeCuenta(r, ant) {
-      const lineas = ["Hola, hice una estimación en tu sitio y quisiera revisarla en la consulta gratuita."];
+      const lineas = ["Hola, estimé en tu sitio el costo de un egreso y quisiera revisarlo con vos."];
       if (estado.forma === "jornal") {
-        lineas.push("Cobro por jornal: " + pesos(estado.jornal) + ", unos " + estado.jornalesAnio + " jornales por año.");
+        lineas.push("Cobra por jornal: " + pesos(estado.jornal) + ", unos " + estado.jornalesAnio + " jornales por año.");
       } else {
         lineas.push("Sueldo nominal: " + pesos(estado.monto) + " por mes.");
       }
-      lineas.push("Tiempo trabajado: " + (ant.texto || "sin completar") + ".");
+      lineas.push("Antigüedad: " + (ant.texto || "sin completar") + ".");
       lineas.push("Fecha de egreso: " + fechaCorta(estado.egreso) + ".");
-      if (estado.especial) lineas.push("Creo que fue un despido especial.");
+      if (estado.especial) lineas.push("Puede tratarse de un despido especial.");
       lineas.push("Total estimado: " + pesos(r.total) + " (indemnización: " + pesos(r.indemnizacion) + ").");
       return lineas.join("\n");
     }
@@ -394,7 +394,7 @@ const CONFIG = {
       const ant = antiguedad();
 
       let detalleIpd;
-      if (ant.total === 0) detalleIpd = "Completá el tiempo trabajado";
+      if (ant.total === 0) detalleIpd = "Completá la antigüedad";
       else if (estado.forma === "jornal") {
         detalleIpd = r.sinMinimoJornales
           ? "Con menos de 100 jornales trabajados no corresponde"
@@ -415,8 +415,8 @@ const CONFIG = {
       const lista = $("#c-notas");
       if (lista) {
         const notas = [];
-        if (estado.especial) notas.push(["En un despido especial, la indemnización puede ser mayor que la común. La calculamos juntos en la consulta.", true]);
-        if (r.posiblePrueba && estado.forma === "mes") notas.push(["Si te despidieron durante un período de prueba acordado por escrito, puede no corresponder indemnización.", true]);
+        if (estado.especial) notas.push(["En un despido especial, la indemnización puede ser bastante mayor y, si hay actividad sindical, la persona puede pedir que la reintegren. Conviene revisarlo antes de decidir.", true]);
+        if (r.posiblePrueba && estado.forma === "mes") notas.push(["Si la persona está en un período de prueba acordado por escrito, puede no corresponder indemnización.", true]);
         notasBase.forEach((n) => notas.push([n, false]));
         lista.replaceChildren(...notas.map(([contenido, fuerte]) => {
           const li = document.createElement("li");
@@ -508,19 +508,19 @@ const CONFIG = {
 
     function construirMensaje() {
       const nombre = campo("nombre").value.trim();
+      const cargo = campo("cargo").value.trim();
       const empresa = campo("empresa").value.trim();
-      const anios = numero(campo("antiguedad").value);
       const contacto = campo("contacto").value.trim();
       const mensaje = campo("mensaje").value.trim();
-      const tema = campo("tema").value;
       const pref = preferencia.value;
 
-      const lineas = ["Hola, me llamo " + nombre + "."];
-      lineas.push("Te escribo porque " + textoOpcion(campo("tema")) + ".");
-      const textoAnios = anios === 1 ? "1 año" : anios + " años";
-      if (empresa && anios) lineas.push("La empresa es " + empresa + " y mi antigüedad es de " + textoAnios + ".");
-      else if (empresa) lineas.push("La empresa es " + empresa + ".");
-      else if (anios) lineas.push("Mi antigüedad es de " + textoAnios + ".");
+      let presentacion = "Hola, me llamo " + nombre;
+      if (cargo && empresa) presentacion += " y soy " + cargo + " en " + empresa;
+      else if (cargo) presentacion += " y soy " + cargo;
+      else if (empresa) presentacion += ", de " + empresa;
+      const lineas = [presentacion + "."];
+      lineas.push("En la empresa trabajan " + textoOpcion(campo("personal")) + " personas.");
+      lineas.push("Te escribo por " + textoOpcion(campo("tema")) + ".");
       lineas.push("Mi consulta " + textoOpcion(campo("urgencia")) + ".");
       if (pref === "llamada") lineas.push("Prefiero que me respondas por una llamada, " + textoOpcion(campo("horario")) + ".");
       else lineas.push("Prefiero que me respondas por " + textoOpcion(preferencia) + ".");
@@ -552,7 +552,8 @@ const CONFIG = {
       const mensaje = construirMensaje();
       if (canal === "email") {
         const tema = textoOpcion(campo("tema"));
-        const asunto = "Consulta laboral: " + tema.charAt(0).toUpperCase() + tema.slice(1);
+        const empresa = campo("empresa").value.trim();
+        const asunto = (empresa ? "Consulta de " + empresa : "Consulta laboral") + ": " + tema.charAt(0).toUpperCase() + tema.slice(1);
         window.location.href = "mailto:" + CONFIG.email + "?subject=" + encodeURIComponent(asunto) + "&body=" + encodeURIComponent(mensaje);
       } else {
         window.open(waUrl(mensaje), "_blank", "noopener");
