@@ -491,7 +491,7 @@ select.blanco {
 
 /* ---------- Banda fotográfica ---------- */
 .banda { padding-bottom: var(--separacion); }
-.banda-foto { width: 100%; height: clamp(360px, 52vw, 680px); object-fit: cover; filter: saturate(0.85); }
+.banda-foto { width: 100%; height: clamp(360px, 52vw, 680px); object-fit: cover; }
 .banda .contenedor { position: relative; }
 .banda-tarjeta {
   position: relative;

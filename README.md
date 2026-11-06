@@ -8,7 +8,7 @@ El sitio toma la sobriedad editorial de los grandes estudios jurídicos: titular
 
 - **Portada:** el titular, la propuesta y la primera consulta gratuita, junto a una foto de una puerta abierta, enmarcada con dos bloques en L y con el sello estampado encima.
 - **Declaración:** una franja oscura con la frase que resume a quién representa y en qué casos. Cada caso es un enlace a su situación.
-- **Banda "Antes de firmar":** una foto de arquitectura a todo el ancho, con una tarjeta superpuesta.
+- **Banda "Antes de firmar":** el Palacio Salvo entre la niebla, a todo el ancho, con una tarjeta superpuesta.
 - **Quién soy:** una galería de la Facultad de Derecho de la Udelar, hasta que haya un retrato.
 - **Sello:** lleva sus iniciales en el centro y, en el aro, su nombre, "Abogada laboralista" y la matrícula. Se repite como logotipo, en la portada, en el membrete de la calculadora, en el pie y en el favicon. En "Quién soy" está además el sello profesional rectangular.
 - **Formulario:** se completa como una frase ("Me llamo… Te escribo porque…"). Lo que escribe la persona aparece en cursiva color lacre.
@@ -101,7 +101,7 @@ La calculadora y algunos textos citan reglas generales de la ley uruguaya. Las t
 
 ## Fotos
 
-Las fotos están recortadas y guardadas en `fotos/`, así que el sitio no depende de otros servicios. Si una foto muestra un lugar, tiene que ser de Montevideo; la portada y la banda todavía tienen fotos genéricas que hay que reemplazar.
+Las fotos están recortadas y guardadas en `fotos/`, así que el sitio no depende de otros servicios. Si una foto muestra un lugar, tiene que ser de Montevideo; la portada todavía tiene una foto genérica que hay que reemplazar.
 
 La de la Facultad de Derecho es de [Wikimedia Commons](https://commons.wikimedia.org) y tiene licencia [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/deed.es): se puede usar, también con fines comerciales, siempre que se mencione al autor y la licencia. Por eso su crédito está en el pie de `index.html`. La versión recortada se comparte con la misma licencia. Si se usa en redes, el crédito va en la descripción del posteo.
 
@@ -114,7 +114,8 @@ Las demás son de [Unsplash](https://unsplash.com/license): se pueden usar grati
 | Archivo | Dónde va | Original |
 | --- | --- | --- |
 | `puertas.webp` | Portada (a reemplazar por una de Montevideo) | `images.unsplash.com/photo-1481277542470-605612bd2d61` |
-| `arquitectura.webp` | Banda "Antes de firmar" (a reemplazar por una de Montevideo) | `images.unsplash.com/photo-1518005020951-eccb494ad742` |
+| `salvo-niebla.webp` | Banda "Antes de firmar" (en prueba) | [Nikolai Kolosov](https://unsplash.com/photos/jjYSryAmA8o) |
+| `arquitectura.webp` | Ya no se usa: era la banda "Antes de firmar". Se conserva mientras se prueba la nueva. | `images.unsplash.com/photo-1518005020951-eccb494ad742` |
 | `firma.webp` | Cómo trabajo (espejada) | [Gabrielle Henderson](https://unsplash.com/es/fotos/woman-signing-on-white-printer-paper-beside-woman-about-to-touch-the-documents-HJckKnwCXxQ) |
 | `pluma.webp` | Guía "Qué hacer si te despiden" | `images.unsplash.com/photo-1455390582262-044cdead277a` |
 
