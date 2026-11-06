@@ -2,7 +2,7 @@
 
 Uso, desde la carpeta del sitio:
     pip install fonttools brotli
-    python3 herramientas/sello.py AP
+    python3 herramientas/sello.py VH
 
 Las iniciales del sello dentro de las páginas son texto: se cambian a mano
 en los <text> de #sello y #sello-simple de cada archivo .html.
@@ -62,7 +62,7 @@ def monograma(iniciales, cx, cy, alto_objetivo):
 
 
 if __name__ == "__main__":
-    iniciales = sys.argv[1] if len(sys.argv) > 1 else "AP"
+    iniciales = sys.argv[1] if len(sys.argv) > 1 else "VH"
     svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">'
            f'<path d="{cera(32, 32, 29)}" fill="{LACRE}"/>'
            f'<path d="{monograma(iniciales, 32, 33, 24)}" fill="{CLARO}"/></svg>\n')

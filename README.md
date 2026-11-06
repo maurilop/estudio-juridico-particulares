@@ -43,20 +43,20 @@ La idea es "primero se lee, después se firma": todo entra en el orden de lectur
 
 ## Datos para completar antes de difundir el sitio
 
-El sitio usa un nombre de ejemplo, **Ana Pérez**, con las iniciales **AP**. Hay que reemplazarlo en todos los lugares:
+El sitio usa un nombre de ejemplo, **Verónica Hernández**, con las iniciales **VH**. Hay que reemplazarlo en todos los lugares:
 
 1. **WhatsApp, teléfono y correo:** al principio de `script.js`, en `CONFIG`. El WhatsApp va con 598 y sin el 0 inicial (099 123 456 → `59899123456`).
-2. **En los tres archivos `.html`:**
-   - `Ana Pérez` (y `Ana`, en el botón "WhatsApp con Ana").
-   - `Dra. Ana Pérez`, en el sello profesional de "Quién soy".
+2. **En los cuatro archivos `.html`:**
+   - `Verónica Hernández`, también en el botón "WhatsApp con Verónica Hernández".
+   - `Dra. Verónica Hernández`, en el sello profesional de "Quién soy".
    - `N.º 00000` y `MAT. 00000`, la matrícula.
    - `Dirección de la oficina`.
-3. **El sello:** en cada `.html`, al principio, hay un bloque marcado con el comentario `SELLO`. Ahí se cambian las iniciales (`AP`, en dos lugares) y el texto del aro (`DRA. ANA PÉREZ • ABOGADA LABORALISTA • MAT. 00000 •`). Si el texto nuevo es mucho más largo o más corto, conviene revisar que el aro quede parejo.
+3. **El sello:** en cada `.html`, al principio, hay un bloque marcado con el comentario `SELLO`. Ahí se cambian las iniciales (`VH`, en dos lugares) y el texto del aro (`DRA. VERÓNICA HERNÁNDEZ • ABOGADA LABORALISTA • MAT. 00000 •`). Si el texto nuevo es mucho más largo o más corto, hay que ajustar el tamaño de la letra del aro (`font-size`, hoy 9.8) para que no quede ni apretado ni con un hueco.
 4. **El favicon:** se regenera con las iniciales nuevas:
 
    ```sh
    pip install fonttools brotli
-   python3 herramientas/sello.py AP
+   python3 herramientas/sello.py VH
    ```
 
 5. **En "Quién soy" (`index.html`):**
@@ -70,7 +70,7 @@ El sitio usa un nombre de ejemplo, **Ana Pérez**, con las iniciales **AP**. Hay
 Para encontrar todo lo pendiente:
 
 ```sh
-grep -n "Ana Pérez\|Ana<\|>AP<\|00000\|Dirección de la oficina\|ejemplo.com" *.html script.js
+grep -n "Verónica Hernández\|VERÓNICA\|>VH<\|00000\|Dirección de la oficina\|ejemplo.com" *.html script.js
 ```
 
 ## Revisión legal pendiente

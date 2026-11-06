@@ -1,5 +1,5 @@
 /* =========================================================
-   Estudio Ana Pérez · diseño editorial
+   Estudio Verónica Hernández · diseño editorial
    Referencias: la sobriedad editorial de los grandes estudios
    (titulares serif livianos, bloques geométricos, fotografía
    abstracta) con la identidad propia del sello de lacre.
@@ -796,7 +796,7 @@ select.blanco {
   .novedades-grilla { gap: 40px; }
 }
 
-@media (max-width: 1180px) {
+@media (max-width: 1240px) {
   .menu-boton { display: inline-flex; align-items: center; }
   .menu {
     position: absolute;
