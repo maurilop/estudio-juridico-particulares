@@ -53,6 +53,25 @@ const CONFIG = {
     [".banda", ":scope > .banda-foto", "revela"],
     [".banda", ".banda-tarjeta", "aparece"],
   ];
+  // Las fotos se bajan al abrir la página, pero cada una se muestra recién cuando terminó
+  // de bajar y está lista para dibujarse: así la transición nunca anima un recuadro vacío.
+  // Si una foto tarda más de 3 segundos, se muestra igual.
+  const fotoLista = (img) => Promise.race([
+    (img.decode ? img.decode() : Promise.resolve()).catch(() => {}),
+    new Promise((listo) => setTimeout(listo, 3000)),
+  ]);
+  const fotosListas = (raiz) => Promise.all($$("img", raiz).map(fotoLista));
+
+  // La portada y el comienzo de la guía entran con animaciones de CSS al cargar. Si su foto
+  // todavía no está lista, la foto, los bloques y el sello esperan, y después entran en orden.
+  $$(".portada-foto, .pagina-foto").forEach((figura) => {
+    const img = $("img", figura);
+    if (!img || (img.complete && img.naturalWidth > 0)) return;
+    const animados = [img].concat($$(".bloque, .portada-sello", figura));
+    animados.forEach((el) => { el.style.animationPlayState = "paused"; });
+    fotoLista(img).then(() => animados.forEach((el) => el.style.removeProperty("animation-play-state")));
+  });
+
   if (!sinMovimiento && "IntersectionObserver" in window) {
     const marcados = new Map();
     const observador = new IntersectionObserver((entradas) => {
@@ -60,12 +79,14 @@ const CONFIG = {
         if (!entrada.isIntersecting) return;
         const grupo = entrada.target;
         observador.unobserve(grupo);
-        grupo.classList.add("en-vista");
-        // Al terminar se quitan las marcas: cada elemento vuelve a sus estilos de siempre.
-        setTimeout(() => {
-          (marcados.get(grupo) || []).forEach((el) => { el.removeAttribute("data-mov"); el.style.removeProperty("--orden"); });
-          grupo.classList.remove("en-vista");
-        }, 2400);
+        fotosListas(grupo).then(() => {
+          grupo.classList.add("en-vista");
+          // Al terminar se quitan las marcas: cada elemento vuelve a sus estilos de siempre.
+          setTimeout(() => {
+            (marcados.get(grupo) || []).forEach((el) => { el.removeAttribute("data-mov"); el.style.removeProperty("--orden"); });
+            grupo.classList.remove("en-vista");
+          }, 2400);
+        });
       });
     }, { rootMargin: "0px 0px -10% 0px" });
 

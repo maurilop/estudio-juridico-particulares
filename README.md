@@ -22,6 +22,7 @@ La idea es "primero se lee, después se firma": todo entra en el orden de lectur
 - **Tiempos y curvas:** están al principio de `styles.css`, en `:root`: breve (160 ms, para los cambios al pasar el puntero), medio (480 ms, textos y tarjetas), largo (900 ms, fotos y bloques), un escalón de 80 ms entre un elemento y el siguiente, y las curvas "calma" y "firme".
 - **Al cargar:** la portada y el comienzo de las páginas internas entran con animaciones de CSS.
 - **Al bajar:** `script.js` marca lo que se mueve (la lista `MOVIMIENTOS`) y lo muestra cuando entra en pantalla: los encabezados, las listas y las tarjetas aparecen de a uno; las fotos se revelan desde abajo; los bloques en L crecen desde su esquina y el sello profesional se estampa al final. Para sumar un elemento, alcanza con agregar una fila a esa lista.
+- **Fotos:** se bajan apenas se abre la página, con prioridad baja para no demorar la de la portada, así ya están listas cuando llegás a su sección. Cada foto aparece recién cuando está lista para dibujarse: si alguna tarda, su sección la espera hasta 3 segundos y después entra con su transición.
 - **Movimiento reducido:** si el dispositivo pide reducir el movimiento, no se anima nada. Al imprimir, todo aparece.
 
 ## Archivos
