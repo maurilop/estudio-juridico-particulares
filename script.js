@@ -62,7 +62,7 @@ const CONFIG = {
      Se oculta mientras se ven los botones de la carta o la sección de contacto,
      que ya ofrecen escribir por WhatsApp. */
   const flotante = $(".wa-flotante");
-  const zonasConBoton = $$(".carta-acciones, #contacto");
+  const zonasConBoton = $$(".portada-acciones, #contacto");
   if (flotante && zonasConBoton.length && "IntersectionObserver" in window) {
     const visibles = new Set();
     const observador = new IntersectionObserver((entradas) => {
@@ -304,14 +304,14 @@ const CONFIG = {
 
     const notasBase = [
       "No incluye horas extra, diferencias de sueldo ni los días trabajados del último mes.",
-      "Muchos reclamos suman a la base de la indemnización la incidencia del aguinaldo, la licencia y el salario vacacional, y eso puede aumentar el monto.",
+      "En muchos reclamos se suma a la base de la indemnización la incidencia del aguinaldo, la licencia y el salario vacacional, lo que puede aumentar el monto.",
       "No aplica a la industria de la construcción, que tiene un régimen propio.",
     ];
 
     const texto = (sel, valor) => { const el = $(sel); if (el) el.textContent = valor; };
 
     function mensajeCuenta(r, ant) {
-      const lineas = ["Hola, hice la cuenta en tu sitio y quiero revisarla en la consulta gratuita."];
+      const lineas = ["Hola, hice una estimación en tu sitio y quisiera revisarla en la consulta gratuita."];
       if (estado.forma === "jornal") {
         lineas.push("Cobro por jornal: " + pesos(estado.jornal) + ", unos " + estado.jornalesAnio + " jornales por año.");
       } else {
@@ -351,7 +351,7 @@ const CONFIG = {
       const lista = $("#c-notas");
       if (lista) {
         const notas = [];
-        if (estado.especial) notas.push(["En un despido especial la indemnización puede ser mayor que la común. La calculamos en la consulta.", true]);
+        if (estado.especial) notas.push(["En un despido especial, la indemnización puede ser mayor que la común. La calculamos juntos en la consulta.", true]);
         if (r.posiblePrueba && estado.forma === "mes") notas.push(["Si te despidieron durante un período de prueba acordado por escrito, puede no corresponder indemnización.", true]);
         notasBase.forEach((n) => notas.push([n, false]));
         lista.replaceChildren(...notas.map(([contenido, fuerte]) => {
@@ -436,7 +436,7 @@ const CONFIG = {
         (canal === "email" && (pref === "whatsapp" || pref === "llamada")) ||
         (canal === "whatsapp" && pref === "correo");
       if (necesitaContacto && !contacto) {
-        errores.push([campo("contacto"), pref === "correo" ? "Dejame tu correo para responderte." : "Dejame tu teléfono para responderte."]);
+        errores.push([campo("contacto"), pref === "correo" ? "Indicá tu correo para que pueda responderte." : "Indicá tu teléfono para que pueda responderte."]);
       }
       if (!campo("acepto").checked) errores.push([campo("acepto"), "Marcá la casilla para aceptar el uso de tus datos."]);
       return errores;
@@ -452,12 +452,12 @@ const CONFIG = {
       const pref = preferencia.value;
 
       const lineas = ["Hola, me llamo " + nombre + "."];
-      lineas.push(tema === "otra" ? "Te escribo por otro tema." : "Me pasó que " + textoOpcion(campo("tema")) + ".");
+      lineas.push("Te escribo porque " + textoOpcion(campo("tema")) + ".");
       const textoAnios = anios === 1 ? "1 año" : anios + " años";
       if (empresa && anios) lineas.push("La empresa es " + empresa + " y mi antigüedad es de " + textoAnios + ".");
       else if (empresa) lineas.push("La empresa es " + empresa + ".");
       else if (anios) lineas.push("Mi antigüedad es de " + textoAnios + ".");
-      lineas.push("Esto " + textoOpcion(campo("urgencia")) + ".");
+      lineas.push("Mi consulta " + textoOpcion(campo("urgencia")) + ".");
       if (pref === "llamada") lineas.push("Prefiero que me respondas por una llamada, " + textoOpcion(campo("horario")) + ".");
       else lineas.push("Prefiero que me respondas por " + textoOpcion(preferencia) + ".");
       if (contacto) lineas.push("Mi teléfono o correo es " + contacto + ".");

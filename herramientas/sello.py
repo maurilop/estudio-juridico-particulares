@@ -36,8 +36,8 @@ def cera(cx, cy, radio, puntos=180):
 
 
 def monograma(iniciales, cx, cy, alto_objetivo):
-    fuente = TTFont(RAIZ / "fonts" / "petrona-latin-wght-italic.woff2")
-    instantiateVariableFont(fuente, {"wght": 560}, inplace=True)
+    fuente = TTFont(RAIZ / "fonts" / "newsreader-latin-standard-italic.woff2")
+    instantiateVariableFont(fuente, {"wght": 500, "opsz": 72}, inplace=True)
     glifos = fuente.getGlyphSet()
     mapa = fuente.getBestCmap()
     nombres = [mapa[ord(letra)] for letra in iniciales]

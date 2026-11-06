@@ -2,27 +2,30 @@
 
 Sitio estático (HTML, CSS y JavaScript, sin dependencias ni compilación) para trabajadoras y trabajadores. Muestra las situaciones que atiende, calcula la indemnización por despido y recibe consultas por WhatsApp o correo. Se publica con GitHub Pages desde la rama `main`.
 
-## La identidad: "Lacre"
+## El diseño
 
-El sello de lacre es el que cierra una carta personal: confidencialidad, compromiso y firma propia. El sitio funciona como la papelería de la abogada:
+El sitio toma la sobriedad editorial de los grandes estudios jurídicos: titulares serif livianos, mucho aire, bloques geométricos y fotografías abstractas. Le suma una identidad propia, el sello de lacre de la abogada.
 
-- **Portada:** es una carta, con fecha de Montevideo, firma, aclaración, sello y posdata ("P. D.") con la primera consulta gratis.
-- **Sello:** lleva sus iniciales en el centro y, en el aro, su nombre, "Abogada laboralista" y la matrícula. Es la "firma y sello" con que firma los escritos, y se repite como logotipo, en el favicon, en los pasos de "Cómo trabajo" y en la estimación de la calculadora.
-- **Formulario:** es tu respuesta a la carta ("Para Ana Pérez"). Lo que completa la persona aparece en cursiva color lacre, como escrito a mano.
-- **Colores:** papel blanco, papel secante (rosado muy pálido) para los fondos alternos, lacre (bordó) y tinta.
-- **Tipografía:** Petrona, de Ringo Seeber, en todo el sitio. La cursiva hace de firma.
+- **Portada:** el titular, la propuesta y la primera consulta gratuita, junto a una foto de una puerta abierta, enmarcada con dos bloques en L y con el sello estampado encima.
+- **Declaración:** una franja oscura con la frase que resume a quién representa y en qué casos. Cada caso es un enlace a su situación.
+- **Banda "Antes de firmar":** una foto de arquitectura a todo el ancho, con una tarjeta superpuesta.
+- **Sello:** lleva sus iniciales en el centro y, en el aro, su nombre, "Abogada laboralista" y la matrícula. Se repite como logotipo, en la portada, en el membrete de la calculadora, en el pie y en el favicon. En "Quién soy" está además el sello profesional rectangular.
+- **Formulario:** se completa como una frase ("Me llamo… Te escribo porque…"). Lo que escribe la persona aparece en cursiva color lacre.
+- **Colores:** blanco, marfil para los fondos alternos, tinta (azul petróleo casi negro), pizarra para los bloques y lacre (bordó) para las acciones. Están al principio de `styles.css`, en `:root`.
+- **Tipografías:** Newsreader, de Production Type, para títulos y frases; usa su eje óptico, que afina el dibujo en los tamaños grandes. Host Grotesk, de Element Type, para el texto y la interfaz.
 
 ## Archivos
 
 | Archivo | Qué tiene |
 | --- | --- |
-| `index.html` | Página principal: la carta, situaciones, calculadora, cómo trabajo, quién soy, preguntas y contacto. |
+| `index.html` | Página principal: portada, declaración, situaciones, calculadora, antes de firmar, cómo trabajo, quién soy, preguntas y contacto. |
 | `guia-despido.html` | Guía "Qué hacer si te despiden". |
 | `privacidad.html` | Política de privacidad (Ley 18.331). |
 | `styles.css` | Diseño. Los colores y medidas están al principio, en `:root`. |
 | `script.js` | Datos de contacto (`CONFIG`), menú, pestañas de situaciones, calculadora en pantalla y formulario. |
 | `calculo.js` | Reglas y cuentas de la calculadora (`REGLAS`). |
-| `fonts/` | Tipografía Petrona, normal y cursiva, con licencia OFL, servida desde el propio sitio. |
+| `fonts/` | Newsreader (normal y cursiva) y Host Grotesk, con licencia OFL, servidas desde el propio sitio. |
+| `fotos/` | Las fotos del sitio, en WebP. |
 | `favicon.svg` | Ícono de la pestaña: el sello con las iniciales en contornos. |
 | `herramientas/sello.py` | Regenera `favicon.svg` con otras iniciales. |
 
@@ -50,7 +53,7 @@ El sitio usa un nombre de ejemplo, **Ana Pérez**, con las iniciales **AP**. Hay
    - Docencia y publicaciones, que está comentado y se activa si corresponde.
    - Los dos párrafos de presentación: el de compliance hay que confirmarlo.
    - El título: "Doctora en Derecho y Ciencias Sociales", que es el que otorga la Udelar.
-6. **Foto:** cuando haya un retrato, guardarlo como `foto.jpg` y agregarlo en "Quién soy", donde lo indica el comentario.
+6. **Retrato:** cuando haya una foto de la abogada, guardarla como `fotos/retrato.webp` (vertical, 4:5, unos 1000 × 1250 px) y reemplazar la foto de la biblioteca en "Quién soy", donde lo indica el comentario.
 
 Para encontrar todo lo pendiente:
 
@@ -83,9 +86,23 @@ La calculadora y algunos textos citan reglas generales de la ley uruguaya. Las t
 - **Publicidad:** qué dice el Código de Ética del Colegio de Abogados del Uruguay sobre anunciar la "primera consulta gratis".
 - **Datos personales:** con la Ley 18.331, si corresponde inscribir la base de datos de clientes ante la URCDP.
 
+## Fotos
+
+Son de [Unsplash](https://unsplash.com/license): se pueden usar gratis, también con fines comerciales, y no exigen mencionar al autor. Lo que la licencia no permite es venderlas sin modificarlas ni usarlas para armar un servicio de fotos que compita con Unsplash. Están recortadas y guardadas en `fotos/`, así que el sitio no depende de Unsplash.
+
+| Archivo | Dónde va | Original |
+| --- | --- | --- |
+| `puertas.webp` | Portada | `images.unsplash.com/photo-1481277542470-605612bd2d61` |
+| `arquitectura.webp` | Banda "Antes de firmar" | `images.unsplash.com/photo-1518005020951-eccb494ad742` |
+| `conversacion.webp` | Cómo trabajo | `images.unsplash.com/photo-1517245386807-bb43f82c33c4` |
+| `biblioteca.webp` | Quién soy (hasta que haya un retrato) | `images.unsplash.com/photo-1505664194779-8beaceb93744` |
+| `pluma.webp` | Guía "Qué hacer si te despiden" | `images.unsplash.com/photo-1455390582262-044cdead277a` |
+
+Para cambiar una foto alcanza con reemplazar el archivo por otro con la misma proporción: 4:5 en la portada y en las columnas, 2:1 en la banda y 16:9 en la guía.
+
 ## Privacidad
 
-El sitio no usa cookies, analítica ni servicios externos: la tipografía se sirve desde el propio sitio. El formulario no guarda datos; arma el mensaje y lo abre en el WhatsApp o en el correo de la persona. Si más adelante se agrega analítica, hay que sumar un aviso de cookies con opción de rechazar y actualizar `privacidad.html`.
+El sitio no usa cookies, analítica ni servicios externos: las tipografías y las fotos se sirven desde el propio sitio. El formulario no guarda datos; arma el mensaje y lo abre en el WhatsApp o en el correo de la persona. Si más adelante se agrega analítica, hay que sumar un aviso de cookies con opción de rechazar y actualizar `privacidad.html`.
 
 ## Cómo agregar contenido
 
