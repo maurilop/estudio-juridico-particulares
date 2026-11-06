@@ -4,11 +4,12 @@ Sitio estático (HTML, CSS y JavaScript, sin dependencias ni compilación) para 
 
 ## El diseño
 
-El sitio toma la sobriedad editorial de los grandes estudios jurídicos: titulares serif livianos, mucho aire, bloques geométricos y fotografías abstractas. Le suma una identidad propia, el sello de lacre de la abogada.
+El sitio toma la sobriedad editorial de los grandes estudios jurídicos: titulares serif livianos, mucho aire, bloques geométricos y fotografías que representan ideas. Le suma una identidad propia, el sello de lacre de la abogada. Las fotos que muestran lugares son de Montevideo, para que se note que el estudio es uruguayo.
 
 - **Portada:** el titular, la propuesta y la primera consulta gratuita, junto a una foto de una puerta abierta, enmarcada con dos bloques en L y con el sello estampado encima.
 - **Declaración:** una franja oscura con la frase que resume a quién representa y en qué casos. Cada caso es un enlace a su situación.
 - **Banda "Antes de firmar":** una foto de arquitectura a todo el ancho, con una tarjeta superpuesta.
+- **Quién soy:** una galería de la Facultad de Derecho de la Udelar, hasta que haya un retrato.
 - **Sello:** lleva sus iniciales en el centro y, en el aro, su nombre, "Abogada laboralista" y la matrícula. Se repite como logotipo, en la portada, en el membrete de la calculadora, en el pie y en el favicon. En "Quién soy" está además el sello profesional rectangular.
 - **Formulario:** se completa como una frase ("Me llamo… Te escribo porque…"). Lo que escribe la persona aparece en cursiva color lacre.
 - **Colores:** blanco, marfil para los fondos alternos, tinta (azul petróleo casi negro), pizarra para los bloques y lacre (bordó) para las acciones. Están al principio de `styles.css`, en `:root`.
@@ -55,7 +56,7 @@ El sitio usa un nombre de ejemplo, **Ana Pérez**, con las iniciales **AP**. Hay
    - Docencia y publicaciones, que está comentado y se activa si corresponde.
    - Los dos párrafos de presentación: el de compliance hay que confirmarlo.
    - El título: "Doctora en Derecho y Ciencias Sociales", que es el que otorga la Udelar.
-6. **Retrato:** cuando haya una foto de la abogada, guardarla como `fotos/retrato.webp` (vertical, 4:5, unos 1000 × 1250 px) y reemplazar la foto de la biblioteca en "Quién soy", donde lo indica el comentario.
+6. **Retrato:** cuando haya una foto de la abogada, guardarla como `fotos/retrato.webp` (vertical, 4:5, unos 1000 × 1250 px) y reemplazar la foto de la Facultad de Derecho en "Quién soy", donde lo indica el comentario. En ese caso, quitar también su crédito del pie.
 
 Para encontrar todo lo pendiente:
 
@@ -91,17 +92,24 @@ La calculadora y algunos textos citan reglas generales de la ley uruguaya. Las t
 
 ## Fotos
 
-Son de [Unsplash](https://unsplash.com/license): se pueden usar gratis, también con fines comerciales, y no exigen mencionar al autor. Lo que la licencia no permite es venderlas sin modificarlas ni usarlas para armar un servicio de fotos que compita con Unsplash. Están recortadas y guardadas en `fotos/`, así que el sitio no depende de Unsplash.
+Las fotos están recortadas y guardadas en `fotos/`, así que el sitio no depende de otros servicios. Si una foto muestra un lugar, tiene que ser de Montevideo; la portada y la banda todavía tienen fotos genéricas que hay que reemplazar.
+
+La de la Facultad de Derecho es de [Wikimedia Commons](https://commons.wikimedia.org) y tiene licencia [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/deed.es): se puede usar, también con fines comerciales, siempre que se mencione al autor y la licencia. Por eso su crédito está en el pie de `index.html`. La versión recortada se comparte con la misma licencia. Si se usa en redes, el crédito va en la descripción del posteo.
+
+| Archivo | Dónde va | Original | Autor y licencia |
+| --- | --- | --- | --- |
+| `facultad.webp` | Quién soy (hasta que haya un retrato) | [Facultad de Derecho, exterior 14](https://commons.wikimedia.org/wiki/File:Facultad_de_Derecho,_exterior_14.jpg) | Marcos Mendizábal, CC BY-SA 3.0 |
+
+Las demás son de [Unsplash](https://unsplash.com/license): se pueden usar gratis, también con fines comerciales, y no exigen mencionar al autor. Lo que la licencia no permite es venderlas sin modificarlas ni usarlas para armar un servicio de fotos que compita con Unsplash.
 
 | Archivo | Dónde va | Original |
 | --- | --- | --- |
-| `puertas.webp` | Portada | `images.unsplash.com/photo-1481277542470-605612bd2d61` |
-| `arquitectura.webp` | Banda "Antes de firmar" | `images.unsplash.com/photo-1518005020951-eccb494ad742` |
+| `puertas.webp` | Portada (a reemplazar por una de Montevideo) | `images.unsplash.com/photo-1481277542470-605612bd2d61` |
+| `arquitectura.webp` | Banda "Antes de firmar" (a reemplazar por una de Montevideo) | `images.unsplash.com/photo-1518005020951-eccb494ad742` |
 | `conversacion.webp` | Cómo trabajo | `images.unsplash.com/photo-1517245386807-bb43f82c33c4` |
-| `biblioteca.webp` | Quién soy (hasta que haya un retrato) | `images.unsplash.com/photo-1505664194779-8beaceb93744` |
 | `pluma.webp` | Guía "Qué hacer si te despiden" | `images.unsplash.com/photo-1455390582262-044cdead277a` |
 
-Para cambiar una foto alcanza con reemplazar el archivo por otro con la misma proporción: 4:5 en la portada y en las columnas, 2:1 en la banda y 16:9 en la guía.
+Para cambiar una foto alcanza con reemplazar el archivo por otro con la misma proporción: 4:5 en la portada y en las columnas, 2:1 en la banda y 16:9 en la guía. Si la nueva foto pide crédito, hay que agregarlo en el pie de `index.html`.
 
 ## Privacidad
 
